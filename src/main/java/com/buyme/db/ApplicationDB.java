@@ -14,7 +14,7 @@ public class ApplicationDB {
 public Connection getConnection(){
 		
 		//Create a connection string
-		String connectionUrl = "jdbc:mysql://localhost:3306/BarBeerDrinkerSample";
+		String connectionUrl = "jdbc:mysql://localhost:3306/buyme";
 		Connection connection = null;
 		
 		try {
