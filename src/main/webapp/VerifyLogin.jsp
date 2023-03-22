@@ -35,7 +35,14 @@
 			
 			if(rs.next()) {
 				System.out.println("Logged in !!!");
+				System.out.println(rs.getString("name"));
+				String name = rs.getString("name");
 				session.setAttribute("username", username);
+				%>
+				<jsp:forward page="UserHome.jsp">
+					<jsp:param name="username" value="<%=name%>"/> 
+				</jsp:forward>
+				<% 
 			} else {
 				System.out.println("Login Failed !!!");
 			}
