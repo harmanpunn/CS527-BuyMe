@@ -13,30 +13,30 @@
 	</head>
 	<body>
 		<div class="container">
-			
 			<form class="text-center form-signin" method="post" action="verifyLogin.jsp">
-				<!-- <h1 class="h3 mb-3 font-weight-normal">Welcome to BuyMe</h1> -->
-				<h2>Welcome to BuyMe</h2>
-				<h3 class="h3 mb-3 font-weight-normal">Please sign in</h3>
+				<h3 class="h3 mb-3 font-weight-normal">Employee Login</h3>
+				
+				<label for="inputEmpType" class="sr-only">Employee Type</label>
+			    <select class="form-control login-select" id="inputEmpType" name="employeeType" required>
+			    	<option value="" disabled selected>Select Employee Type</option>
+					<option value="admin">Admin</option>
+				    <option value="custrep">Customer Representative</option>
+			    </select>
+			    
 				<label for="inputUser" class="sr-only">Username</label>
 				<input id="inputUser" class="form-control" type="text" name="username" placeholder="Username" required autofocus>
-				
+					
 				<label for="inputPassword" class="sr-only">Password</label>
 				<input id="inputPassword" class="form-control" type="password" name="password" placeholder="Password" required>
-				
 				
 				<% if(Boolean.parseBoolean(request.getParameter("loginFailed"))) { %>	
 					<span>Invalid username or password. Please try again</span>
 				<% }%>
 				
-				
 				<button class="btn btn-primary btn-lg btn-login" type="submit" value="Login">Sign in</button>
 				
-				<p><a class="btn-register" href="Register.jsp">Create an Account</a></p>
-				
-				<p> Are you an Employee? <a href="EmployeeLogin.jsp">Click Here</a></p>
-				
-		</form>
+				<p> <a href="Login.jsp">Click Here</a> to go back to home page.</p>
+			</form>	
 		</div>
 	</body>
 </html>

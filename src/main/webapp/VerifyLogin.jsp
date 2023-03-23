@@ -3,6 +3,8 @@
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
 <%@ page import="com.buyme.*" %>
 <%@ page import="com.buyme.db.ApplicationDB" %>
+<%@ page import="com.buyme.bean.UserBean" %>
+<%@ page import="com.buyme.constants.BuyMeConstants" %>
 
 
 <!DOCTYPE html>
@@ -13,6 +15,7 @@
 	</head>
 	<body>
 		<%
+			UserBean user = null;
 			ApplicationDB database = new ApplicationDB();
 			Connection conn = database.getConnection();
 			
@@ -20,8 +23,23 @@
 			
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
+			String employeeType = request.getParameter("employeeType");
+			String query = "";
+			boolean endUser = false;
+			//String query = "SELECT * FROM User u, EndUser eu WHERE username = ? and password = ? AND u.userId = eu.userId " ;
 			
-			String query = "SELECT * FROM USER WHERE username = ? and password = ?";
+			if(employeeType != null)  {
+				if(employeeType.equalsIgnoreCase(BuyMeConstants.ADMIN)) {
+					query = BuyMeConstants.ADMIN_USER_LOOKUP;
+					 
+				} else if(employeeType.equalsIgnoreCase(BuyMeConstants.CUSTOMER_REP)) {
+					query = BuyMeConstants.CUST_REP_USER_LOOKUP;
+				}
+			} else {
+				endUser = true;
+				query = BuyMeConstants.END_USER_LOOKUP;
+			}
+			
 			
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
 			preparedStatement.setString(1, username);
@@ -31,20 +49,42 @@
 			
 			ResultSet rs = preparedStatement.executeQuery();
 			
-			System.out.println(rs);
+			
 			
 			if(rs.next()) {
+				user = new UserBean();
 				System.out.println("Logged in !!!");
 				System.out.println(rs.getString("name"));
-				String name = rs.getString("name");
-				session.setAttribute("username", username);
+				
+				user.setName(rs.getString("name"));
+				
+				if(endUser) user.setRating(Double.parseDouble(rs.getString("rating")));
+				
+				user.setUserId(rs.getString("userId"));
+				user.setUsername(rs.getString("username"));
+				user.setPassword(rs.getString("password"));
+				user.setEmail(rs.getString("email"));
+				user.setLocation(rs.getString("location"));
+				
+				session.setAttribute("user", user);
 				%>
 				<jsp:forward page="UserHome.jsp">
-					<jsp:param name="username" value="<%=name%>"/> 
+					<jsp:param name="user" value="<%=user%>"/> 
 				</jsp:forward>
 				<% 
 			} else {
 				System.out.println("Login Failed !!!");
+				if(endUser) {
+				%>
+				<jsp:forward page="Login.jsp">
+					<jsp:param name="loginFailed" value="true"/>
+				</jsp:forward>			
+				<% } else {
+					%>  
+					<jsp:forward page="EmployeeLogin.jsp">
+						<jsp:param name="loginFailed" value="true"/>
+					</jsp:forward>	
+			<% 	}
 			}
 			
 		%>
