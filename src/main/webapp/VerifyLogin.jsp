@@ -5,6 +5,7 @@
 <%@ page import="com.buyme.db.ApplicationDB" %>
 <%@ page import="com.buyme.bean.UserBean" %>
 <%@ page import="com.buyme.constants.BuyMeConstants" %>
+<%@ page import="com.buyme.utils.BuyMeUtils" %>
 
 
 <!DOCTYPE html>
@@ -22,7 +23,8 @@
 			Statement stmt = conn.createStatement();
 			
 			String username = request.getParameter("username");
-			String password = request.getParameter("password");
+			String passwordString = request.getParameter("password");
+			String password = BuyMeUtils.encryptPassword(passwordString);
 			String employeeType = request.getParameter("employeeType");
 			String query = "";
 			boolean endUser = false;

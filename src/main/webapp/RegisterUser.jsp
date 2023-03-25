@@ -5,7 +5,7 @@
 <%@ page import="com.buyme.db.ApplicationDB" %>
 <%@ page import="com.buyme.bean.UserBean" %>
 <%@ page import="com.buyme.constants.BuyMeConstants" %>
-
+<%@ page import="com.buyme.utils.BuyMeUtils" %>
 
 <!DOCTYPE html>
 <html>
@@ -27,7 +27,8 @@
 			String location = request.getParameter("location");
 			String email = request.getParameter("email");
 			String username = request.getParameter("username");
-			String password = request.getParameter("password");
+			String passwordString = request.getParameter("password");
+			String password = BuyMeUtils.encryptPassword(passwordString);
 			
 			PreparedStatement ps1 = conn.prepareStatement("SELECT * FROM User WHERE username = ? OR email = ?");
 			ps1.setString(1, username);
