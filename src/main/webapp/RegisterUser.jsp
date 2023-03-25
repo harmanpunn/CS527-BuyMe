@@ -15,43 +15,83 @@
 	</head>
 	<body>
 		<%
-		
-			UserBean user = null;
+			
 			ApplicationDB database = new ApplicationDB();
 			Connection conn = database.getConnection();
 			
 			int userId = -1;
+			boolean userExists = false;
+			String message = "";
+			
 			String name = request.getParameter("name");
 			String location = request.getParameter("location");
 			String email = request.getParameter("email");
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			
-			String query = "INSERT INTO User (name, location, username, email, password) VALUES (?, ?, ?, ?, ?)";
+			PreparedStatement ps1 = conn.prepareStatement("SELECT * FROM User WHERE username = ? OR email = ?");
+			ps1.setString(1, username);
+			ps1.setString(2, email);
 			
-			PreparedStatement preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			preparedStatement.setString(1, name);
-			preparedStatement.setString(2, location);
-			preparedStatement.setString(3, username);
-			preparedStatement.setString(4, email);
-			preparedStatement.setString(5, password);
-			preparedStatement.executeUpdate();
+			ResultSet resultSet = ps1.executeQuery();
+			if (resultSet.next()) {
+				userExists = true;
+			}
+			ps1.close();
 			
-			ResultSet rs = preparedStatement.getGeneratedKeys();
-			while (rs.next()) {
-		         userId = Integer.parseInt(rs.getString(1));
-	      	}
-			
-			preparedStatement.close();
-			
-			String query2 = "INSERT INTO EndUser (userId) VALUES (?)";
-			
-			PreparedStatement ps2 =  conn.prepareStatement(query2);
-			ps2.setInt(1, userId);
-			ps2.executeUpdate();
-			ps2.close();
+			if (userExists) {
+				message = "Username or email already exists. Please try to login to your account.";
+				%>
+				<jsp:forward page="Register.jsp">
+					<jsp:param name="userExists" value="<%=userExists%>"/>
+					<jsp:param name="message" value="<%=message%>"/> 
+				</jsp:forward>
+				<% 		
+			} else {
+				String query = "INSERT INTO User (name, location, username, email, password) VALUES (?, ?, ?, ?, ?)";
+				
+				PreparedStatement preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+				preparedStatement.setString(1, name);
+				preparedStatement.setString(2, location);
+				preparedStatement.setString(3, username);
+				preparedStatement.setString(4, email);
+				preparedStatement.setString(5, password);
+				preparedStatement.executeUpdate();
+				
+				ResultSet rs = preparedStatement.getGeneratedKeys();
+				
+				while (rs.next()) {
+			         userId = Integer.parseInt(rs.getString(1));
+		      	}
+				
+				preparedStatement.close();
+				
+				String query2 = "INSERT INTO EndUser (userId) VALUES (?)";
+				
+				PreparedStatement ps2 =  conn.prepareStatement(query2);
+				ps2.setInt(1, userId);
+				ps2.executeUpdate();
+				ps2.close();
+				message = "Registration is successful";
+				
+				UserBean user = new UserBean();
+				user.setUserId(userId);
+				user.setName(name);
+				user.setUsername(username);
+				user.setPassword(password);
+				user.setEmail(email);
+				user.setLocation(location);
+				session.setAttribute("user", user);
+				%>
+				<jsp:forward page="UserHome.jsp">
+					<jsp:param name="user" value="<%=user%>"/> 
+				</jsp:forward>
+				<% 
+			}
 			
 			conn.close();
+			
+			
 			
 		%>
 	</body>

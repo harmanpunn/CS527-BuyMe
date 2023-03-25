@@ -17,6 +17,10 @@
 			<form class="text-center form-signin" method="post" action="RegisterUser.jsp">
 				<!-- <h1 class="h3 mb-3 font-weight-normal">Welcome to BuyMe</h1> -->
 				<h3 class="h3 mb-3 font-weight-normal">Registration</h3>
+				<%if(Boolean.parseBoolean(request.getParameter("userExists"))) { %>
+					<p><%=request.getParameter("message")%></p>
+				<% } %>
+				
 				<label for="inputName" class="sr-only">Name</label>
 				<input id="inputName" class="form-control" type="text" name="name" placeholder="Name" required autofocus>
 				
@@ -43,7 +47,7 @@
     
 				<button class="btn btn-primary btn-lg btn-login" type="submit" value="Login">Register</button>
 		
-				
+				<p> <a href="Login.jsp">Click Here</a> to go back to home page.</p>
 		</form>		</div>
 	</body>
 </html>

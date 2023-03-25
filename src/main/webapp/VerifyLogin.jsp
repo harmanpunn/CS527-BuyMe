@@ -60,7 +60,7 @@
 				
 				if(endUser) user.setRating(Double.parseDouble(rs.getString("rating")));
 				
-				user.setUserId(rs.getString("userId"));
+				user.setUserId(rs.getInt("userId"));
 				user.setUsername(rs.getString("username"));
 				user.setPassword(rs.getString("password"));
 				user.setEmail(rs.getString("email"));

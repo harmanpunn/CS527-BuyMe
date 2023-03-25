@@ -2,7 +2,7 @@ package com.buyme.bean;
 
 public class UserBean {
 	
-	private String userId;
+	private int userId;
 	private String name;
 	private String username;
 	private String password;
@@ -16,10 +16,10 @@ public class UserBean {
 	public void setRating(double rating) {
 		this.rating = rating;
 	}
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	public String getName() {
