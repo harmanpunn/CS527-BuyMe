@@ -47,7 +47,7 @@ option:not(:first-of-type) {
 }
 
 .form-signin input[type="password"] {
-    margin-bottom: 10px;
+    margin-bottom: 3px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
@@ -81,4 +81,9 @@ label {
 
 .form-signin a {
 	text-decoration: none;	
+}
+
+
+.form-terms {
+	margin-top: 10px;
 }

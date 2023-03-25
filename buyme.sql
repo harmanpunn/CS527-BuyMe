@@ -2,7 +2,7 @@ create schema buyme;
 use buyme;
 
 CREATE TABLE User (
-	userId INT NOT NULL,
+	userId INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     username VARCHAR(30) NOT NULL UNIQUE,
     password VARCHAR(255),
@@ -81,5 +81,5 @@ INSERT INTO EndUser (userId, rating)
 VALUES (5, 0.0);
 
 
-
-select * from user
+select * from User;
+select * from EndUser
