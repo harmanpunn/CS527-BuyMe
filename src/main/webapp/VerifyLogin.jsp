@@ -16,6 +16,7 @@
 	</head>
 	<body>
 		<%
+			try {
 			UserBean user = null;
 			ApplicationDB database = new ApplicationDB();
 			Connection conn = database.getConnection();
@@ -28,7 +29,6 @@
 			String employeeType = request.getParameter("employeeType");
 			String query = "";
 			boolean endUser = false;
-			//String query = "SELECT * FROM User u, EndUser eu WHERE username = ? and password = ? AND u.userId = eu.userId " ;
 			
 			if(employeeType != null)  {
 				if(employeeType.equalsIgnoreCase(BuyMeConstants.ADMIN)) {
@@ -50,8 +50,6 @@
 			System.out.println(preparedStatement);
 			
 			ResultSet rs = preparedStatement.executeQuery();
-			
-			
 			
 			if(rs.next()) {
 				user = new UserBean();
@@ -88,6 +86,11 @@
 					</jsp:forward>	
 			<% 	}
 			}
+			} catch(Exception e) {
+				System.out.println("Exception | verifyLogin {}"+ e);
+				
+			}
+			
 			
 		%>
 	</body>

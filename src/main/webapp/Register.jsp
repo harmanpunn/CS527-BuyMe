@@ -17,7 +17,7 @@
 			<form class="text-center form-signin" method="post" action="RegisterUser.jsp">
 				<!-- <h1 class="h3 mb-3 font-weight-normal">Welcome to BuyMe</h1> -->
 				<h3 class="h3 mb-3 font-weight-normal">Registration</h3>
-				<%if(Boolean.parseBoolean(request.getParameter("userExists"))) { %>
+				<%if(Boolean.parseBoolean(request.getParameter("userExists")) || Boolean.parseBoolean(request.getParameter("passwordErr"))) { %>
 					<p><%=request.getParameter("message")%></p>
 				<% } %>
 				

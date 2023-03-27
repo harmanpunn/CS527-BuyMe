@@ -15,12 +15,13 @@
 	</head>
 	<body>
 		<%
-			
+			try {
 			ApplicationDB database = new ApplicationDB();
 			Connection conn = database.getConnection();
 			
 			int userId = -1;
 			boolean userExists = false;
+			boolean passwordErr = false;
 			String message = "";
 			
 			String name = request.getParameter("name");
@@ -28,6 +29,20 @@
 			String email = request.getParameter("email");
 			String username = request.getParameter("username");
 			String passwordString = request.getParameter("password");
+			String confirmPassword = request.getParameter("confirmPassword");
+			
+			if(!passwordString.equals(confirmPassword)) {
+				message = "The password and confirm password field must match.";
+				passwordErr = true;
+				%>
+				<jsp:forward page="Register.jsp">
+					<jsp:param name="passwordErr" value="<%=passwordErr%>"/>
+					<jsp:param name="message" value="<%=message%>"/> 
+				</jsp:forward>
+				<% 		
+				
+			}
+			
 			String password = BuyMeUtils.encryptPassword(passwordString);
 			
 			PreparedStatement ps1 = conn.prepareStatement("SELECT * FROM User WHERE username = ? OR email = ?");
@@ -91,7 +106,9 @@
 			}
 			
 			conn.close();
-			
+			} catch(Exception e) {
+				System.out.println("Exception | RegisterUser {}"+ e);
+			}
 			
 			
 		%>

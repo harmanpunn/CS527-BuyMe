@@ -10,6 +10,7 @@
 		<h2>Signing out user ${user.name} </h2>
 		<%if(session != null) {
 			session.removeAttribute("user");
+			session.invalidate();
 			response.sendRedirect(request.getContextPath() + "/Login.jsp");
 		} %>
 	</body>

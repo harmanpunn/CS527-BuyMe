@@ -26,7 +26,5 @@ public final class BuyMeUtils {
 	      e.printStackTrace();
 	    }
 	    return encryptedPassword;
-	    
 	  }
-
 }
