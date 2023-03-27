@@ -22,13 +22,24 @@
 			int userId = -1;
 			boolean userExists = false;
 			String message = "";
+			String misMatch = "";
+			boolean passwordMisMatch = false;
 			
 			String name = request.getParameter("name");
 			String location = request.getParameter("location");
 			String email = request.getParameter("email");
 			String username = request.getParameter("username");
 			String passwordString = request.getParameter("password");
+			String confirmpasswordString = request.getParameter("confirmPassword");
 			String password = BuyMeUtils.encryptPassword(passwordString);
+			
+			
+			
+		   
+		    if (passwordString.equals(confirmpasswordString)) {
+		        // Passwords match, do something
+		    
+		
 			
 			PreparedStatement ps1 = conn.prepareStatement("SELECT * FROM User WHERE username = ? OR email = ?");
 			ps1.setString(1, username);
@@ -75,6 +86,7 @@
 				ps2.close();
 				message = "Registration is successful";
 				
+				
 				UserBean user = new UserBean();
 				user.setUserId(userId);
 				user.setName(name);
@@ -89,7 +101,20 @@
 				</jsp:forward>
 				<% 
 			}
-			
+		    }
+		    
+		    else {
+		        // Passwords do not match, display an error message
+		       passwordMisMatch =true;
+		       misMatch = "Password and Confirm Password fields should match.";
+		        %>
+				<jsp:forward page="Register.jsp">
+					<jsp:param name="passwordMisMatch" value="<%=passwordMisMatch%>"/>
+					<jsp:param name="misMatch" value="<%=misMatch%>"/> 
+				</jsp:forward>
+				<% 	 
+		    }
+		    
 			conn.close();
 			
 			

@@ -20,6 +20,9 @@
 				<%if(Boolean.parseBoolean(request.getParameter("userExists"))) { %>
 					<p><%=request.getParameter("message")%></p>
 				<% } %>
+				<%if(Boolean.parseBoolean(request.getParameter("passwordMisMatch"))) { %>
+					<p><%=request.getParameter("misMatch")%></p>
+				<% } %>
 				
 				<label for="inputName" class="sr-only">Name</label>
 				<input id="inputName" class="form-control" type="text" name="name" placeholder="Name" required autofocus>
