@@ -86,10 +86,13 @@
 					</jsp:forward>	
 			<% 	}
 			}
+			preparedStatement.close();
+			conn.close();
+			
 			} catch(Exception e) {
 				System.out.println("Exception | verifyLogin {}"+ e);
 				
-			}
+			} 
 			
 			
 		%>
