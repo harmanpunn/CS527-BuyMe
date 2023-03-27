@@ -14,7 +14,7 @@
 	<body>
 		<div class="container">
 			
-			<form class="text-center form-signin" method="post" action="verifyLogin.jsp">
+			<form class="text-center form-signin" method="post" action="VerifyLogin.jsp">
 				<!-- <h1 class="h3 mb-3 font-weight-normal">Welcome to BuyMe</h1> -->
 				<h2>Welcome to BuyMe</h2>
 				<h3 class="h3 mb-3 font-weight-normal">Please sign in</h3>

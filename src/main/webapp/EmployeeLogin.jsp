@@ -13,7 +13,7 @@
 	</head>
 	<body>
 		<div class="container">
-			<form class="text-center form-signin" method="post" action="verifyLogin.jsp">
+			<form class="text-center form-signin" method="post" action="VerifyLogin.jsp">
 				<h3 class="h3 mb-3 font-weight-normal">Employee Login</h3>
 				
 				<label for="inputEmpType" class="sr-only">Employee Type</label>
