@@ -18,9 +18,14 @@
 			if(user == null ) {
 				response.sendRedirect(request.getContextPath() + "/Login.jsp");
 		} else { %>
-			<div class="user-container">		
-				<h2>Welcome ${user.name} </h2>
-				<a class="btn btn-primary " href="Logout.jsp">Logout</a>
+			<div class="user-container ">		
+				<h2 class="mb-3 text-center">Welcome to BuyMe </h2>
+				<jsp:include page="Navbar.jsp">
+				    <jsp:param name="username" value="${user.name}" />
+				</jsp:include>
+				
+				
+				<!-- <a class="btn btn-primary " href="Logout.jsp">Logout</a> -->
 			</div>
 		<% } %>
 	</body>

@@ -55,7 +55,6 @@ public Connection getConnection(){
 		ApplicationDB dao = new ApplicationDB();
 		Connection connection = dao.getConnection();
 		
-		System.out.println(connection);		
 		dao.closeConnection(connection);
 	}
 

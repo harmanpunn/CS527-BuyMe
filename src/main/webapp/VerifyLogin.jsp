@@ -47,14 +47,11 @@
 			preparedStatement.setString(1, username);
 			preparedStatement.setString(2, password);
 			
-			System.out.println(preparedStatement);
 			
 			ResultSet rs = preparedStatement.executeQuery();
 			
 			if(rs.next()) {
 				user = new UserBean();
-				System.out.println("Logged in !!!");
-				System.out.println(rs.getString("name"));
 				
 				user.setName(rs.getString("name"));
 				
@@ -73,7 +70,6 @@
 				</jsp:forward>
 				<% 
 			} else {
-				System.out.println("Login Failed !!!");
 				if(endUser) {
 				%>
 				<jsp:forward page="Login.jsp">
@@ -89,8 +85,7 @@
 			preparedStatement.close();
 			conn.close();
 			
-			} catch(Exception e) {
-				System.out.println("Exception | verifyLogin {}"+ e);
+			} catch (Exception e) {
 				
 			} 
 			

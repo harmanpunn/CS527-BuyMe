@@ -107,7 +107,7 @@
 			
 			conn.close();
 			} catch(Exception e) {
-				System.out.println("Exception | RegisterUser {}"+ e);
+				
 			}
 			
 			
