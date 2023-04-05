@@ -19,13 +19,21 @@
 				response.sendRedirect(request.getContextPath() + "/Login.jsp");
 		} else { %>
 			<div class="user-container ">		
-				<h2 class="mb-3 text-center">Welcome to BuyMe </h2>
+				
 				<jsp:include page="Navbar.jsp">
 				    <jsp:param name="username" value="${user.name}" />
 				</jsp:include>
 				
+				<div class="container mt-5">
+					<form action="Search.jsp" method="GET">
+						<div class="input-group">
+						  	<input type="text" class="form-control" placeholder="Search for items" name="query" required>
+						  	<button type="submit" class="btn btn-primary">Search</button>
+						</div>
+					</form>
+				</div>
 				
-				<!-- <a class="btn btn-primary " href="Logout.jsp">Logout</a> -->
+				
 			</div>
 		<% } %>
 	</body>

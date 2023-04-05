@@ -1,14 +1,19 @@
+<h2 class="my-3 text-center">Welcome to BuyMe </h2>
 <nav class="navbar navbar-expand-lg navbar-light bg-light px-5">
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
+        	<li class="nav-item active">
+                <a class="nav-link" href="UserHome.jsp">Home <span class="sr-only">(current)</span></a>
+            </li>
+       		 <span class="navbar-text"> | </span>
             <li class="nav-item active">
-                <a class="nav-link" href="Laptops.jsp">Laptops <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="Listing.jsp?subcategory=Laptop">Laptops <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="Smartphones.jsp">Smartphones</a>
+                <a class="nav-link" href="Listing.jsp?subcategory=Smartphone">Smartphones</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="Tablets.jsp">Tablets</a>
+                <a class="nav-link" href="Listing.jsp?subcategory=Tablet">Tablets</a>
             </li>
         </ul>
     </div>
