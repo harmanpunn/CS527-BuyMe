@@ -5,6 +5,7 @@
 <%@ page import="com.buyme.bean.Item" %>
 <%@ page import="com.buyme.db.ApplicationDB" %>
 <%@ page import="com.buyme.bean.UserBean" %>
+<%@ page import="com.buyme.utils.BuyMeUtils" %>
 
 <!DOCTYPE html>
 <html>
@@ -33,6 +34,9 @@
 					try {
 						ApplicationDB database = new ApplicationDB();
 						con = database.getConnection();
+						
+						// Close expired bids
+				        BuyMeUtils.closeExpiredBids(con);
 						
 						// Execute the query to retrieve the item details
 						String sql = "SELECT * FROM Item WHERE itemId=?";
@@ -65,7 +69,7 @@
 							<p><%= item.getDescription() %></p>
 							<p>Price: <%= item.getInitialPrice() %></p>
 							
-							<form method="post" action="PlaceBid.jsp">
+							<%-- <form method="post" action="PlaceBid.jsp">
 								<input type="hidden" name="itemId" value="<%= item.getItemId() %>">
 								
 								<div class="form-group">
@@ -74,6 +78,23 @@
 								</div>
 								
 								<div class="form-group">
+									<button type="submit" class="btn btn-primary">Place Bid</button>
+								</div>
+							</form> --%>
+							<form method="post" action="PlaceBidWithAutobid.jsp">
+								<input type="hidden" name="itemId" value="<%= item.getItemId() %>">
+								
+								<div class="form-group d-flex">
+									<label for="bidPrice" class="pt-2">Bid Price:</label>
+									<input type="number" name="bidPrice" id="bidPrice" class="form-control w-8 mx-3" min="<%= item.getInitialPrice() %>" step="<%= item.getBidIncrement() %>" required>
+								</div>
+							
+								<div class="form-group d-flex">
+									<label for="upperLimit" class="pt-2">Autobid Upper Limit (optional):</label>
+									<input type="number" name="upperLimit" id="upperLimit" class="form-control w-8 mx-3" min="<%= item.getInitialPrice() %>">
+								</div>
+							
+								<div class="form-group ">
 									<button type="submit" class="btn btn-primary">Place Bid</button>
 								</div>
 							</form>

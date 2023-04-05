@@ -84,7 +84,7 @@
                     <div class="container mt-5">
                         <h2 class="mb-3"><%= subcategory %> Listings</h2>
 
-                      <form class="form-inline d-flex mb-5 mx-auto justify-content-center" method="GET" action="Listing.jsp">
+                      <form class="form-inline d-flex mb-5 mx-auto" method="GET" action="Listing.jsp">
 						  <label class="pt-2 for="sortby">Sort by:</label>
 						  <select class="custom-select mx-3 form-control w-auto" name="sortby" id="sortby">
 						    <option value="None">---</option>
@@ -118,7 +118,7 @@
 					                        boolean isClosed = closingTime.before(currentTime);
 					                        %>
 					                        
-					                        <a href="Item.jsp?itemId=<%= rs.getString("itemId") %>" class="btn btn-primary" <%= isClosed ? "disabled" : "" %>>Bid Now</a>
+					                        <a href="Item.jsp?itemId=<%= rs.getString("itemId") %>" class="btn btn-primary <%= isClosed ? "disabled" : "" %>"  >Bid Now</a>
 					                    </div>
 					                </div>
 					            </div>
