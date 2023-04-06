@@ -3,6 +3,7 @@
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
 <%@ page import="com.buyme.*" %>
 <%@ page import="com.buyme.bean.UserBean" %>
+<%@ page import="com.buyme.db.ApplicationDB" %>
 
 <!DOCTYPE html>
 <html>
@@ -24,17 +25,24 @@
 				    <jsp:param name="username" value="${user.name}" />
 				</jsp:include>
 				
+				<jsp:include page="ActiveBids.jsp">
+				    <jsp:param name="userId" value="${user.userId}" />
+				</jsp:include>
+				
+				<jsp:include page="LeadingBids.jsp">
+				    <jsp:param name="userId" value="${user.userId}" />
+				</jsp:include>
+				
+				<jsp:include page="LosingBids.jsp">
+				    <jsp:param name="userId" value="${user.userId}" />
+				</jsp:include>
+				
+				<jsp:include page="AutoBidStatus.jsp">
+				    <jsp:param name="userId" value="${user.userId}" />
+				</jsp:include>
 				
 				
-				<!-- <div class="container mt-5">
-					<form action="SearchListing.jsp" method="GET">
-						<div class="input-group">
-						  	<input type="text" class="form-control" placeholder="Search for items" name="query" required>
-						  	<button type="submit" class="btn btn-primary">Search</button>
-						</div>
-					</form>
-				</div> -->
-				
+								
 				
 			</div>
 		<% } %>
