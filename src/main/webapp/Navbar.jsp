@@ -31,3 +31,4 @@
         </ul>
     </div>
 </nav>
+<jsp:include page="Search.jsp"></jsp:include>
