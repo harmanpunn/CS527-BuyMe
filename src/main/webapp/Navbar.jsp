@@ -1,5 +1,5 @@
 <h2 class="my-3 text-center">Welcome to BuyMe </h2>
-<nav class="navbar navbar-expand-lg navbar-light bg-light px-5">
+<nav class="navbar navbar-expand-sm navbar-light bg-light px-5">
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
         	<li class="nav-item active">
@@ -30,5 +30,5 @@
             </li>
         </ul>
     </div>
-</nav>
+</nav>	
 <jsp:include page="Search.jsp"></jsp:include>
