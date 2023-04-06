@@ -41,6 +41,10 @@
 				    <jsp:param name="userId" value="${user.userId}" />
 				</jsp:include>
 				
+				<jsp:include page="UserListings.jsp">
+				    <jsp:param name="userId" value="${user.userId}" />
+				</jsp:include>
+				
 				
 								
 				
