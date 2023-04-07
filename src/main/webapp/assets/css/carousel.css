@@ -1,0 +1,19 @@
+.carousel {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 2rem 0;
+}
+
+.carousel-track {
+  display: flex;
+}
+
+.carousel-card {
+  flex: 0 0 auto;
+  width: 300px;
+  margin-right: 1rem;
+}
+
+.carousel-card:last-child {
+  margin-right: 0;
+}

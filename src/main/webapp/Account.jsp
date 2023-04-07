@@ -89,9 +89,9 @@
             <div class="mb-3">
                 <label for="interests" class="form-label">Select Interests</label>
                 <select multiple class="form-select" id="interests" name="interests">
-                    <option value="Laptops" <% if (userInterests.contains("Laptops")) { %>selected<% } %>>Laptops</option>
-                    <option value="Smartphones" <% if (userInterests.contains("Smartphones")) { %>selected<% } %>>Smartphones</option>
-                    <option value="Tablets" <% if (userInterests.contains("Tablets")) { %>selected<% } %>>Tablets</option>
+                    <option value="Laptop" <% if (userInterests.contains("Laptop")) { %>selected<% } %>>Laptop</option>
+                    <option value="Smartphone" <% if (userInterests.contains("Smartphone")) { %>selected<% } %>>Smartphone</option>
+                    <option value="Tablet" <% if (userInterests.contains("Tablet")) { %>selected<% } %>>Tablet</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Save Interests</button>
