@@ -45,18 +45,13 @@
 				    <jsp:param name="userId" value="${user.userId}" />
 				</jsp:include>
 				
-				<jsp:include page="AutoBidStatus.jsp">
+				<%-- <jsp:include page="AutoBidStatus.jsp">
 				    <jsp:param name="userId" value="${user.userId}" />
-				</jsp:include>
+				</jsp:include> --%>
 				
 				<jsp:include page="UserListings.jsp">
 				    <jsp:param name="userId" value="${user.userId}" />
 				</jsp:include>
-				
-				
-				
-				
-								
 				
 			</div>
 		<% } %>

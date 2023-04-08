@@ -6,7 +6,7 @@
 <%@ page import="com.buyme.db.ApplicationDB" %>
 
 <div class="container mt-5">
-				    <h3>Active Bids</h3>
+				    <h3>Your Active Bids</h3>
 				    <table class="table">
 				        <thead>
 				            <tr>

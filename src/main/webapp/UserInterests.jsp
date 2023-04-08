@@ -8,7 +8,7 @@
 <link href="assets/css/carousel.css" rel="stylesheet"/>
 
 <div class="container mt-5">
-    <h3>Items of Interest</h3>
+    <h3>Items Based on Your Interests</h3>
     <div class="carousel">
         <div class="carousel-track">
             <%
@@ -19,7 +19,7 @@
                 try {
                 	ApplicationDB database = new ApplicationDB();
     				con = database.getConnection();
-                    String itemsOfInterestQuery = "SELECT i.itemId, i.name, i.description, i.initialprice, i.closingtime FROM Item i WHERE i.subcategory IN (SELECT interest FROM UserInterests WHERE userId = ?)";
+                    String itemsOfInterestQuery = "SELECT i.itemId, i.name, i.description, i.initialprice, i.closingtime FROM Item i WHERE i.subcategory IN (SELECT interest FROM UserInterests WHERE userId = ?) AND i.closingtime > NOW()";
                     itemsOfInterestStmt = con.prepareStatement(itemsOfInterestQuery);
                     itemsOfInterestStmt.setInt(1, userId);
                     itemsOfInterestRs = itemsOfInterestStmt.executeQuery();

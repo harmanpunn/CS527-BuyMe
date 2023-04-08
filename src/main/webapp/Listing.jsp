@@ -87,12 +87,12 @@
                       <form class="form-inline d-flex mb-5 mx-auto" method="GET" action="Listing.jsp">
 						  <label class="pt-2 for="sortby">Sort by:</label>
 						  <select class="custom-select mx-3 form-control w-auto" name="sortby" id="sortby">
-						    <option value="None">---</option>
-						    <option value="Name">Name</option>
-						    <option value="lowToHigh">Price (Ascending)</option>
-						    <option value="highToLow">Price (Descending)</option>
-						    <option value="Open">Status: Open</option>
-						    <option value="Closed">Status: Closed</option>
+						    <option value="None" <%= "None".equals(sortby) ? "selected" : "" %>>---</option>
+							<option value="Name" <%= "Name".equals(sortby) ? "selected" : "" %>>Name</option>
+							<option value="lowToHigh" <%= "lowToHigh".equals(sortby) ? "selected" : "" %>>Price (Ascending)</option>
+							<option value="highToLow" <%= "highToLow".equals(sortby) ? "selected" : "" %>>Price (Descending)</option>
+							<option value="Open" <%= "Open".equals(sortby) ? "selected" : "" %>>Status: Open</option>
+							<option value="Closed" <%= "Closed".equals(sortby) ? "selected" : "" %>>Status: Closed</option>
 						  </select>
 						  <input type="hidden" name="subcategory" value="<%= subcategory %>">
 						  <button type="submit" class="btn btn-primary mr-2">Apply</button>

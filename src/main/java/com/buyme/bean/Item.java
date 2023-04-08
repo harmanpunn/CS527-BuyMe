@@ -12,8 +12,35 @@ public class Item {
 	    private Timestamp closingTime;
 	    private double bidIncrement;
 	    private double minPrice;
+	    private String sellerName;
+	    private double highestBid;
+	    private double userBid;
 
-	    public Item(int userId, String itemId, String name, String description, String subcategory, double initialPrice, Timestamp closingTime, double bidIncrement, double minPrice) {
+	    public String getSellerName() {
+			return sellerName;
+		}
+
+		public void setSellerName(String sellerName) {
+			this.sellerName = sellerName;
+		}
+
+		public double getHighestBid() {
+			return highestBid;
+		}
+
+		public void setHighestBid(Double highestBid) {
+			this.highestBid = highestBid;
+		}
+
+		public double getUserBid() {
+			return userBid;
+		}
+
+		public void setUserBid(double userBid) {
+			this.userBid = userBid;
+		}
+
+		public Item(int userId, String itemId, String name, String description, String subcategory, double initialPrice, Timestamp closingTime, double bidIncrement, double minPrice) {
 	        this.userId = userId;
 	        this.itemId = itemId;
 	        this.name = name;

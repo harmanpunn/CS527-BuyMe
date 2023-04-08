@@ -6,7 +6,7 @@
 <%@ page import="com.buyme.db.ApplicationDB" %>
 
 <div class="container mt-5">
-    <h3>Bids Won by User</h3>
+    <h3>Victorious: Your Winning Bids</h3>
     <table class="table">
         <thead>
             <tr>
@@ -26,9 +26,12 @@
                 try {
                 	ApplicationDB database = new ApplicationDB();
 					con = database.getConnection();
-					String bidsWonQuery = "SELECT b.itemId, i.name, b.price, b.time, i.closingtime FROM Bid b JOIN Item i ON b.itemId = i.itemId WHERE b.userId = ? AND b.status = 'closed' AND i.closingtime <= NOW() AND NOT EXISTS (SELECT 1 FROM Bid WHERE itemId = b.itemId AND price > b.price AND status = 'closed') AND b.time = (SELECT MAX(time) FROM Bid WHERE itemId = b.itemId AND userId = ? AND status = 'closed')";
-                    bidsWonStmt = con.prepareStatement(bidsWonQuery);
+					String bidsWonQuery = "SELECT b.itemId, i.name, b.price, b.time, i.closingtime FROM Bid b JOIN Item i ON b.itemId = i.itemId WHERE b.userId = ? AND b.status = 'closed' AND i.closingtime <= NOW() AND b.price = (SELECT MAX(price) FROM Bid WHERE itemId = b.itemId AND userId = ? AND status = 'closed') AND b.time = (SELECT MAX(time) FROM Bid WHERE itemId = b.itemId AND userId = ? AND status = 'closed');";
+					bidsWonStmt = con.prepareStatement(bidsWonQuery);
                     bidsWonStmt.setInt(1, userId);
+                    bidsWonStmt.setInt(2, userId);
+                    bidsWonStmt.setInt(3, userId);
+
                     bidsWonRs = bidsWonStmt.executeQuery();
                     while (bidsWonRs.next()) {
             %>

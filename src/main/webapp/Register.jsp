@@ -44,7 +44,6 @@
     				<label class="form-check-label" for="terms">I agree to the <a href="#">terms and conditions</a>.</label>
 				</div>
 				
-    
 				<button class="btn btn-primary btn-lg btn-login" type="submit" value="Login">Register</button>
 		
 				<p> <a href="Login.jsp">Click Here</a> to go back to home page.</p>

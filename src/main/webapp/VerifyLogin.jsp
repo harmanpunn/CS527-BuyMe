@@ -40,6 +40,7 @@
 			} else {
 				endUser = true;
 				query = BuyMeConstants.END_USER_LOOKUP;
+				BuyMeUtils.closeExpiredBids(conn);
 			}
 			
 			
