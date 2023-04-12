@@ -21,6 +21,9 @@
 			ApplicationDB database = new ApplicationDB();
 			Connection conn = database.getConnection();
 			
+			// Closing the expired bids
+			BuyMeUtils.closeExpiredBids(conn);
+			
 			Statement stmt = conn.createStatement();
 			
 			String username = request.getParameter("username");
@@ -28,19 +31,24 @@
 			String password = BuyMeUtils.encryptPassword(passwordString);
 			String employeeType = request.getParameter("employeeType");
 			String query = "";
+			String landingPage = "";
 			boolean endUser = false;
 			
 			if(employeeType != null)  {
 				if(employeeType.equalsIgnoreCase(BuyMeConstants.ADMIN)) {
 					query = BuyMeConstants.ADMIN_USER_LOOKUP;
+					landingPage = "AdminHome";
+					
 					 
 				} else if(employeeType.equalsIgnoreCase(BuyMeConstants.CUSTOMER_REP)) {
 					query = BuyMeConstants.CUST_REP_USER_LOOKUP;
+					landingPage = "CustomerRepHome";
 				}
 			} else {
 				endUser = true;
 				query = BuyMeConstants.END_USER_LOOKUP;
-				BuyMeUtils.closeExpiredBids(conn);
+				
+				landingPage = "UserHome";
 			}
 			
 			
@@ -65,11 +73,12 @@
 				user.setLocation(rs.getString("location"));
 				
 				session.setAttribute("user", user);
-				%>
-				<jsp:forward page="UserHome.jsp">
-					<jsp:param name="user" value="<%=user%>"/> 
-				</jsp:forward>
-				<% 
+				
+				/* request.setAttribute("user", user);
+				request.getRequestDispatcher("UserHome.jsp").forward(request, response); */
+				response.sendRedirect( landingPage +".jsp");
+				
+			
 			} else {
 				if(endUser) {
 				%>
