@@ -69,35 +69,9 @@
 						%>
 						<jsp:include page="Navbar.jsp">
 						    <jsp:param name="username" value="${user.name}" />
+						    <jsp:param name="landingPage" value="UserHome" />
 						</jsp:include>
-						<%-- <div class="container mt-5">
-							<h2><%= item.getName() %></h2>
-							<p><%= item.getDescription() %></p>
-							<p>Price: <%= item.getInitialPrice() %></p>
-							<p>Seller: <%= item.getSellerName() %></p>
-							<p>Closing time: <%= item.getClosingTime() %></p>
-							<p>Current bid placed by you: <%=  item.getUserBid() == 0.0 ? "None" : item.getUserBid() %></p>
-							<p>Highest bid placed on the item: <%= item.getHighestBid() == 0.0 ? "None" : item.getHighestBid()  %></p>
-														
-							<form method="post" action="PlaceBidWithAutobid.jsp">
-								<input type="hidden" name="itemId" value="<%= item.getItemId() %>">
-								
-								<div class="form-group d-flex">
-									<label for="bidPrice" class="pt-2">Bid Price:</label>
-									<input type="number" name="bidPrice" id="bidPrice" class="form-control w-8 mx-3" min="<%= item.getInitialPrice() %>" step="<%= item.getBidIncrement() %>" required>
-								</div>
-							
-								<div class="form-group d-flex">
-									<label for="upperLimit" class="pt-2">Autobid Upper Limit (optional):</label>
-									<input type="number" name="upperLimit" id="upperLimit" class="form-control w-8 mx-3" min="<%= item.getInitialPrice() %>">
-								</div>
-							
-								<div class="form-group ">
-									<button type="submit" class="btn btn-primary">Place Bid</button>
-								</div>
-							</form>
-							
-						</div> --%>
+					
 						
 						<div class="container mt-5">
     <div class="card">
