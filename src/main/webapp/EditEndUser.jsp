@@ -20,6 +20,8 @@
 
 		<jsp:include page="CustRepUpdateEndUser.jsp"/>
 		<jsp:include page="CustRepUpdateBid.jsp"/>
+		<jsp:include page="CustRepUpdateAuction.jsp"/>
+		<jsp:include page="CustRepFAQ.jsp"/>
 	
 </body>
 </html>
