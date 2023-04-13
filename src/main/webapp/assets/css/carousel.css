@@ -2,6 +2,7 @@
   overflow-x: auto;
   white-space: nowrap;
   padding: 2rem 0;
+  text-overflow: ellipsis;
 }
 
 .carousel-track {
@@ -16,4 +17,11 @@
 
 .carousel-card:last-child {
   margin-right: 0;
+}
+
+.card-desc {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
 }
