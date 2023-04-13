@@ -74,49 +74,61 @@
 					
 						
 						<div class="container mt-5">
-    <div class="card">
-        <div class="card-header">
-            <h2><%= item.getName() %></h2>
-        </div>
-        <div class="card-body">
-            <p class="card-text lead"><%= item.getDescription() %></p>
-            <div class="row">
-                <div class="col-sm-6">
-                    <p class="card-text mb-1"><strong>Price:</strong> <%= item.getInitialPrice() %></p>
-                    <p class="card-text mb-1"><strong>Closing time:</strong> <%= item.getClosingTime() %></p>
-                    <p class="card-text mb-1"><strong>Current bid placed by you:</strong> <%=  item.getUserBid() == 0.0 ? "None" : item.getUserBid() %></p>
-                    <p class="card-text mb-1"><strong>Highest bid placed on the item:</strong> <%= item.getHighestBid() == 0.0 ? "None" : item.getHighestBid()  %></p>
-                    <p class="card-text mb-1"><strong>Seller:</strong> <%= item.getSellerName() %></p>
-                </div>
-                <div class="col-sm-6">
-                    <form method="post" action="PlaceBidWithAutobid.jsp">
-                        <input type="hidden" name="itemId" value="<%= item.getItemId() %>">
-                        
-                        <div class="mb-3">
-                            <label for="bidPrice" class="form-label"><strong>Bid Price:</strong></label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" name="bidPrice" id="bidPrice" class="form-control" min="<%= item.getInitialPrice() %>" step="<%= item.getBidIncrement() %>" required>
-                            </div>
-                        </div>
-                    
-                        <div class="mb-3">
-                            <label for="upperLimit" class="form-label"><strong>Autobid Upper Limit (optional):</strong></label>
-                            <div class="input-group">
-                                <span class="input-group-text">$</span>
-                                <input type="number" name="upperLimit" id="upperLimit" class="form-control" min="<%= item.getInitialPrice() %>">
-                            </div>
-                        </div>
-                    
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-primary">Place Bid</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+						  <div class="card">
+						    <div class="card-header">
+						      <h2><%= item.getName() %> </h2>
+						    </div>
+						    <div class="card-body">
+						      <p class="card-text lead"><%= item.getDescription() %> </p>
+						      <div class="row">
+						        <div class="col-sm-6">
+						          <p class="card-text mb-1">
+						            <strong>Price:</strong><%= item.getInitialPrice() %>
+						          </p>
+						          <p class="card-text mb-1">
+						            <strong>Closing time:</strong><%= item.getClosingTime() %>
+						          </p>
+						          <p class="card-text mb-1">
+						            <strong>Current bid placed by you:</strong><%=  item.getUserBid() == 0.0 ? "None" : item.getUserBid() %>
+						          </p>
+						          <p class="card-text mb-1">
+						            <strong>Highest bid placed on the item:</strong><%= item.getHighestBid() == 0.0 ? "None" : item.getHighestBid()  %>
+						          </p>
+						          <p class="card-text mb-1">
+						            <strong>Seller:</strong><%= item.getSellerName() %>
+						          </p>
+						        </div>
+						        <div class="col-sm-6">
+						          <form method="post" action="PlaceBidWithAutobid.jsp">
+						            <input type="hidden" name="itemId" value="<%= item.getItemId() %>">
+						            <div class="mb-3">
+						              <label for="bidPrice" class="form-label">
+						                <strong>Bid Price:</strong>
+						              </label>
+						              <div class="input-group">
+						                <span class="input-group-text">$</span>
+						                <input type="number" name="bidPrice" id="bidPrice" class="form-control" min="<%= item.getInitialPrice() %>" step="<%= item.getBidIncrement() %>" required>
+						              </div>
+						            </div>
+						            <div class="mb-3">
+						              <label for="upperLimit" class="form-label">
+						                <strong>Autobid Upper Limit (optional):</strong>
+						              </label>
+						              <div class="input-group">
+						                <span class="input-group-text">$</span>
+						                <input type="number" name="upperLimit" id="upperLimit" class="form-control" min="<%= item.getInitialPrice() %>">
+						              </div>
+						            </div>
+						            <div class="mb-3">
+						              <button type="submit" class="btn btn-primary">Place Bid</button>
+						            </div>
+						          </form>
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						<jsp:include page="Footer.jsp" />
 						
 						<%
 					} catch(SQLException e) {

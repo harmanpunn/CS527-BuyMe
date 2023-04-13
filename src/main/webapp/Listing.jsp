@@ -133,7 +133,7 @@
 					
 					<% } %>
 				</div>	    
-					    
+				<jsp:include page="Footer.jsp" />	    
 					    <%
 			} catch(SQLException e) {
 				e.printStackTrace();

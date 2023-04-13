@@ -35,6 +35,7 @@
 		<jsp:param name="userId" value="${user.userId}" />
 	</jsp:include>
 	
+	<jsp:include page="Footer.jsp" />
  
 </body>
 </html>
