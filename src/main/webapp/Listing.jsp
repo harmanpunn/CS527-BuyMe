@@ -80,6 +80,7 @@
                     %>
                     <jsp:include page="Navbar.jsp">
                         <jsp:param name="username" value="${user.name}" />
+                        <jsp:param name="landingPage" value="UserHome" />
                     </jsp:include>
                     <div class="container mt-5">
                         <h2 class="mb-3"><%= subcategory %> Listings</h2>
@@ -132,7 +133,7 @@
 					
 					<% } %>
 				</div>	    
-					    
+				<jsp:include page="Footer.jsp" />	    
 					    <%
 			} catch(SQLException e) {
 				e.printStackTrace();

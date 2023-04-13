@@ -23,6 +23,7 @@
 				
 				<jsp:include page="Navbar.jsp">
 				    <jsp:param name="username" value="${user.name}" />
+				    <jsp:param name="landingPage" value="UserHome" />
 				</jsp:include>
 				
 				<jsp:include page="UserInterests.jsp">
@@ -52,6 +53,8 @@
 				<jsp:include page="UserListings.jsp">
 				    <jsp:param name="userId" value="${user.userId}" />
 				</jsp:include>
+				
+				<jsp:include page="Footer.jsp" />
 				
 			</div>
 		<% } %>

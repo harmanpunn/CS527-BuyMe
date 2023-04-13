@@ -62,6 +62,7 @@
 				%>
 				<jsp:include page="Navbar.jsp">
 				    <jsp:param name="username" value="${user.name}" />
+				    <jsp:param name="landingPage" value="UserHome" />
 				</jsp:include>
 				<div class="container mt-5">
 					<h2 class="mb-3">Search Results for: <%= query %></h2>
@@ -91,7 +92,13 @@
 									<h5 class="card-title"><%= rs.getString("name") %></h5>
 									<p class="card-text"><%= rs.getString("description") %></p>
 									<p class="card-text">Price: <%= rs.getDouble("initialprice") %></p>
-									<a href="Item.jsp?itemId=<%= rs.getString("itemId") %>" class="btn btn-primary">Bid Now</a>
+									
+									<% 
+				                        Timestamp closingTime = rs.getTimestamp("closingtime");
+				                        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+				                        boolean isClosed = closingTime.before(currentTime);
+				                    %>
+					                 <a href="Item.jsp?itemId=<%= rs.getString("itemId") %>" class="btn btn-primary <%= isClosed ? "disabled" : "" %>"  >Bid Now</a>
 								</div>
 							</div>
 						</div>
@@ -105,7 +112,7 @@
 
 					<% } %>
 				</div>
-
+				<jsp:include page="Footer.jsp" />
 				<%
 			} catch(SQLException e) {
 				e.printStackTrace();
