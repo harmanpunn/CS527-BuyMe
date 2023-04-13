@@ -33,6 +33,9 @@ CREATE TABLE EndUser (
     ON DELETE CASCADE
 );
 
+Select * from USER;
+Select * FROM ENDUser;
+
 INSERT INTO User (userId, name, username, password, email, location)
 VALUES (1, 'John Doe', 'johndoe', '482c811da5d5b4bc6d497ffa98491e38', 'johndoe@example.com', 'New York');
 
@@ -198,3 +201,19 @@ INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, 
 INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (3, 'SPH006', 'Sony Xperia 5 III', '128GB, 6.1-inch screen, 5G, Snapdragon 888', 'smartphone', 950, '2023-04-08 14:00:00', 50, 950);
 
 INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (4, 'LPT006', 'Acer Swift 3', '14-inch, Intel Core i5, 256GB SSD, 8GB RAM', 'laptop', 800, '2023-04-08 16:00:00', 50, 800);
+
+
+
+
+CREATE TABLE UserQuestion (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  userId INT NOT NULL,
+  question TEXT NOT NULL,
+  answer TEXT,
+  FOREIGN KEY (userId) REFERENCES EndUser(userId)
+);
+
+SELECT * FROM UserQuestion;
+
+SELECT * FROM ITEM
+
