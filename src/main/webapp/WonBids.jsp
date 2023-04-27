@@ -36,7 +36,7 @@
                     while (bidsWonRs.next()) {
             %>
             <tr>
-                <td><%= bidsWonRs.getString("itemId") %></td>
+              	<td><a href="Item.jsp?itemId=<%= bidsWonRs.getString("itemId") %>"><%= bidsWonRs.getString("itemId") %></a></td>
                 <td><%= bidsWonRs.getString("name") %></td>
                 <td><%= bidsWonRs.getDouble("price") %></td>
                 <td><%= bidsWonRs.getTimestamp("time") %></td>

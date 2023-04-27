@@ -1,8 +1,19 @@
 .carousel {
-  overflow-x: auto;
+  overflow-x: scroll;
+  scrollbar-width: thin;
   white-space: nowrap;
   padding: 2rem 0;
   text-overflow: ellipsis;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.carousel::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
 }
 
 .carousel-track {

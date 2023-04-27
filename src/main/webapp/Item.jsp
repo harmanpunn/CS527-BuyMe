@@ -6,6 +6,8 @@
 <%@ page import="com.buyme.db.ApplicationDB" %>
 <%@ page import="com.buyme.bean.UserBean" %>
 <%@ page import="com.buyme.utils.BuyMeUtils" %>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.time.ZoneId" %>
 
 <!DOCTYPE html>
 <html>
@@ -68,6 +70,11 @@
 
 						}
 						
+						 // Check if the item's closing time has passed
+					    LocalDateTime now = LocalDateTime.now();
+					    LocalDateTime closingTime = item.getClosingTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+					    boolean biddingClosed = now.isAfter(closingTime);
+						
 						String autoBidSql = "SELECT a.upper_limit FROM AutoBid a JOIN Bid b ON b.userId = a.userId WHERE b.itemId = ? AND b.userId = ? AND b.status = 'active'";
 						PreparedStatement autoBidStmt = con.prepareStatement(autoBidSql);
 
@@ -123,30 +130,50 @@
 						          </p>
 						        </div>
 						        <div class="col-sm-6">
-						          <form method="post" action="PlaceBidWithAutobid.jsp">
+						        <% if (item.getUserId() != user.getUserId()) { %>
+						        
+						        
+						        <form action="PlaceBidWithAutobid.jsp" method="post" class="mb-3">
 						            <input type="hidden" name="itemId" value="<%= item.getItemId() %>">
+						            
 						            <div class="mb-3">
 						              <label for="bidPrice" class="form-label">
 						                <strong>Bid Price:</strong>
 						              </label>
 						              <div class="input-group">
 						                <span class="input-group-text">$</span>
-						                <input type="number" name="bidPrice" id="bidPrice" class="form-control" min="<%= item.getInitialPrice() %>" step="<%= item.getBidIncrement() %>" required>
+    									<input type="number" name="bidPrice" id="bidPrice" class="form-control" min="<%= item.getInitialPrice() %>" step="<%= item.getBidIncrement() %>" value="<%= item.getUserBid() == 0.0 ? "" : item.getUserBid() %>" required>
 						              </div>
 						            </div>
-						            <div class="mb-3">
+						            <button type="submit" name="placeBid" class="btn btn-primary">Place Bid</button>
+								</form>
+								
+								<!-- Form to update upper limit -->
+								<form action="UpdateAutoBid.jsp" method="post" class="mt-3">
+								    <input type="hidden" name="itemId" value="<%= item.getItemId() %>" />
+	    						    <input type="hidden" name="bidPrice" value="<%= item.getUserBid() == 0.0 ? 0.0 : item.getUserBid() %>">
+								    
+								    <div class="mb-3">
 						              <label for="upperLimit" class="form-label">
 						                <strong>Autobid Upper Limit (optional):</strong>
 						              </label>
 						              <div class="input-group">
 						                <span class="input-group-text">$</span>
-						                <input type="number" name="upperLimit" id="upperLimit" class="form-control" min="<%= item.getInitialPrice() %>">
+    									<input type="number" name="upperLimit" id="upperLimit" class="form-control" min="<%= item.getInitialPrice() %>" value="<%= autoBidSet ? autoBidUpperLimit : "" %>">
 						              </div>
 						            </div>
-						            <div class="mb-3">
-						              <button type="submit" class="btn btn-primary">Place Bid</button>
-						            </div>
-						          </form>
+								    <button type="submit" name="updateUpperLimit" class="btn btn-primary">Update Upper Limit</button>
+								</form>
+								<% } else if (biddingClosed) { %>
+								    <div class="alert alert-warning" role="alert">
+								        This item is closed for bidding.
+								    </div>
+								
+						          <% } else { %>
+						          <div class="alert alert-warning" role="alert">
+								      You cannot place a bid on your own item. This helps maintain fair and transparent bidding practices for all users.
+								    </div>
+								  <% } %>
 						        </div>
 						      </div>
 						    </div>

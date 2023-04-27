@@ -202,7 +202,9 @@ public final class BuyMeUtils {
 
 	            System.out.println(stmt.toString());
 	            while (rs.next()) {
+	            	
 	                int userId = rs.getInt("userId");
+	                System.out.print("here"+ userId);
 	                double autoBidIncrement = rs.getDouble("auto_bid_increment");
 	                double upperLimit = rs.getDouble("upper_limit");
 

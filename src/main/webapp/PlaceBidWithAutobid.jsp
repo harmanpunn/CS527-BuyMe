@@ -1,3 +1,7 @@
+
+
+
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
@@ -62,7 +66,7 @@
 			stmt.executeUpdate();
 
 			// Insert or update the autobid (if applicable) into the AutoBid table
-			if (upperLimit != null && upperLimit >= bidPrice) {
+			/* if (upperLimit != null && upperLimit >= bidPrice) {
 			    
 			    double bidIncrement = 0;
 			    String bidIncrementQuery = "SELECT bidincrement FROM Item WHERE itemId = ?";
@@ -102,7 +106,7 @@
 			        stmt.executeUpdate();
 			    }
 			}
-			
+ */			
 			
 			String highestActiveBidQuery = "SELECT MAX(price) as highest_active_bid FROM Bid WHERE itemId = ? AND status = 'active'";
 			stmt = con.prepareStatement(highestActiveBidQuery);
