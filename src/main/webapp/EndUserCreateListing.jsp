@@ -41,8 +41,12 @@
 				double itemBidIncrement = Double.parseDouble(request.getParameter("item_bid_increment"));
 				double itemMinimumPrice = Double.parseDouble(request.getParameter("item_min_price"));
 				
+				String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
 				
-				String itemId = userID + itemSubcategory;
+				Random random = new Random();
+				String random_four_digit_number = String.format("%04d", random.nextInt(10000));
+				
+				String itemId = timeStamp + itemSubcategory + userID + random_four_digit_number;
 				
 				String query = "insert into Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				PreparedStatement preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
