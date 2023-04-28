@@ -75,9 +75,8 @@
 					    LocalDateTime closingTime = item.getClosingTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 					    boolean biddingClosed = now.isAfter(closingTime);
 						
-						String autoBidSql = "SELECT a.upper_limit FROM AutoBid a JOIN Bid b ON b.userId = a.userId WHERE b.itemId = ? AND b.userId = ? AND b.status = 'active'";
+						String autoBidSql = "SELECT a.upper_limit FROM AutoBid a JOIN Bid b ON b.userId = a.userId WHERE a.itemId = ? AND b.userId = ? AND b.status = 'active'";
 						PreparedStatement autoBidStmt = con.prepareStatement(autoBidSql);
-
 						autoBidStmt.setString(1, itemId);
 						autoBidStmt.setInt(2, user.getUserId());
 						ResultSet autoBidRs = autoBidStmt.executeQuery();
@@ -85,6 +84,8 @@
 						boolean autoBidSet = false;
 						double autoBidUpperLimit = 0.0;
 						if (autoBidRs.next()) {
+							
+							System.out.println("HERE trye: ");
 						    autoBidSet = true;
 						    autoBidUpperLimit = autoBidRs.getDouble("upper_limit");
 						}
@@ -130,7 +131,7 @@
 						          </p>
 						        </div>
 						        <div class="col-sm-6">
-						        <% if (item.getUserId() != user.getUserId()) { %>
+						        <% if (item.getUserId() != user.getUserId() && !biddingClosed) { %>
 						        
 						        
 						        <form action="PlaceBidWithAutobid.jsp" method="post" class="mb-3">
@@ -142,7 +143,7 @@
 						              </label>
 						              <div class="input-group">
 						                <span class="input-group-text">$</span>
-    									<input type="number" name="bidPrice" id="bidPrice" class="form-control" min="<%= item.getInitialPrice() %>" step="<%= item.getBidIncrement() %>" value="<%= item.getUserBid() == 0.0 ? "" : item.getUserBid() %>" required>
+    									<input type="number" name="bidPrice" id="bidPrice" class="form-control" min="<%= item.getUserBid() == 0.0 ? item.getInitialPrice() : item.getUserBid()%>" step="<%= item.getBidIncrement() %>" value="<%= item.getUserBid() == 0.0 ? "" : item.getUserBid() %>" required>
 						              </div>
 						            </div>
 						            <button type="submit" name="placeBid" class="btn btn-primary">Place Bid</button>
@@ -179,14 +180,73 @@
 						    </div>
 						  </div>
 						</div>
-						<jsp:include page="Footer.jsp" />
 						
 						<%
+						  // Execute the query to retrieve the bid history
+/* 						  String bidHistorySql = "SELECT b.*, u.name AS user_name FROM Bid b JOIN User u ON b.userId = u.userId WHERE b.itemId = ? ORDER BY b.time DESC";
+ */			    		  String bidHistorySql = "SELECT b.*, u.name AS user_name FROM Bid b JOIN User u ON b.userId = u.userId WHERE b.itemId = ? ORDER BY b.time DESC";
+	
+						  PreparedStatement bidHistoryStmt = con.prepareStatement(bidHistorySql);
+						  bidHistoryStmt.setString(1, itemId);
+						  ResultSet bidHistoryRs = bidHistoryStmt.executeQuery();
+						  
+						%>
+						
+						
+						<div class="container mt-5">
+						  <div class="accordion" id="bidHistoryAccordion">
+						    <div class="accordion-item">
+						      <h2 class="accordion-header" id="headingBidHistory">
+						        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBidHistory" aria-expanded="true" aria-controls="collapseBidHistory">
+						          Bid History
+						        </button>
+						      </h2>
+						      <div id="collapseBidHistory" class="accordion-collapse collapse" aria-labelledby="headingBidHistory" data-bs-parent="#bidHistoryAccordion">
+						        <div class="accordion-body">
+						          <table class="table table-striped table-hover">
+									  <thead>
+									    <tr>
+									      <th scope="col">Bidder</th>
+									      <th scope="col">Price</th>
+									      <th scope="col">Time</th>
+									      <th scope="col">Status</th>
+									    </tr>
+									  </thead>
+									  <tbody>
+									    <%
+									      while (bidHistoryRs.next()) {
+									        String userName = bidHistoryRs.getString("user_name");
+									        double bidPrice = bidHistoryRs.getDouble("price");
+									        Timestamp bidTime = bidHistoryRs.getTimestamp("time");
+									        String bidStatus = bidHistoryRs.getString("status");
+									    %>
+									    <tr >
+									      <td><%= userName %></td>
+									      <td><%= bidPrice %></td>
+									      <td><%= bidTime %></td>
+									      <td><%= bidStatus %></td>
+									    </tr>
+									    <% } %>
+									  </tbody>
+									</table>
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						
+						
+						
+						
+						<jsp:include page="Footer.jsp" />
+						
+						<%bidHistoryStmt.close();
 					} catch(SQLException e) {
 						e.printStackTrace();
 					} finally {
 						stmt.close();
 						con.close();
+						
 					} }	}%>
 
 					</body>
