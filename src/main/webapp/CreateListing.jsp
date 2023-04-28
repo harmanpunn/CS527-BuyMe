@@ -13,38 +13,38 @@
 	</head>
 	<body>
 		<div class="container">
-			<form class="text-center form-signin" method="post" action="EndUserCreateListing.jsp">
+			<form method="post" action="EndUserCreateListing.jsp" class="w-50">
 				<h3 class="h3 mb-3 font-weight-normal">Create Listing</h3>
 				<input type="hidden" name="userId" value="<%= request.getParameter("userId") %>"></input>
 				<label for="itemName" class="sr-only">Item Name</label>
-				<input id="itemName" class="form-control" type="text" name="item_name" placeholder="Item Name" required autofocus>
+				<input id="itemName" class="form-control mb-1" type="text" name="item_name" placeholder="Item Name" required autofocus>
 				
 				<label for="itemDescription" class="sr-only">Description</label>
-				<input id="itemDescription" class="form-control" type="text" name="item_description" placeholder="Description" required autofocus>
-				
+				<!-- <input id="itemDescription" class="form-control mb-1" type="textarea" name="item_description" placeholder="Description" required autofocus> -->
+				<textarea id="itemDescription" class="form-control mb-1" name="item_description" rows="4" cols="40"  placeholder="Description" required></textarea>
 				<label for="itemSubcategory" class="sr-only">Subcategory</label>
-				<select class="form-control login-select" id="itemSubcategory" name="subcategory" required>
+				<select class="form-control mb-1" id="itemSubcategory" name="subcategory" required>
 					<option value="" disabled selected>Select Subcategory</option>
 					<option value="laptop">Laptops</option>
-					<option value="laptop">Smartphones</option>
-					<option value="laptop">Tablets</option>
-				
+					<option value="smartphone">Smartphones</option>
+					<option value="tablet">Tablets</option>
 				</select>
 				
 				<label for="itemInitialPrice" class="sr-only">Initial Price</label>
-				<input id="itemInitialPrice" class="form-control" type="number" name="item_initial_price" placeholder="Initial Price" required autofocus>
+				<input id="itemInitialPrice" class="form-control mb-1" type="number" name="item_initial_price" placeholder="Initial Price" required autofocus>
 				
 				<label for="itemClosingTime" class="sr-only">Closing Time</label>
-				<input id="itemClosingTime" class="form-control" type="datetime-local" name="item_closing_time" placeholder="Closing Time" required autofocus>
+				<input id="itemClosingTime" class="form-control mb-1" type="datetime-local" name="item_closing_time" placeholder="Closing Time" required autofocus>
 				
 				<label for="itemBidIncrement" class="sr-only">Bid Increment</label>
-				<input id="itemBidIncrement" class="form-control" type="number" name="item_bid_increment" placeholder="Bid Increment" required autofocus>
+				<input id="itemBidIncrement" class="form-control mb-1" type="number" name="item_bid_increment" placeholder="Bid Increment" required autofocus>
 				
 				<label for="itemMinPrice" class="sr-only">Minimum Price</label>
-				<input id="itemMinPrice" class="form-control" type="number" name="item_min_price" placeholder="Minimum Price" required autofocus>
+				<input id="itemMinPrice" class="form-control mb-1" type="number" name="item_min_price" placeholder="Minimum Price" required autofocus>
 				
-				<button class="btn btn-primary btn-lg btn-login" type="submit" value="Submit">Submit</button>
-						
+				<div class="d-flex justify-content-center mb-3">
+			        <button type="submit" class="btn btn-primary me-5">Submit</button>
+			    </div>
 			</form>
 			
 		</div>

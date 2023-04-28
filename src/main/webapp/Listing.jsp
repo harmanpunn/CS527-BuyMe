@@ -118,8 +118,8 @@
 					                        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 					                        boolean isClosed = closingTime.before(currentTime);
 					                        %>
-					                        
-					                        <a href="Item.jsp?itemId=<%= rs.getString("itemId") %>" class="btn btn-primary <%= isClosed ? "disabled" : "" %>"  >Bid Now</a>
+   					                        <a href="Item.jsp?itemId=<%= rs.getString("itemId") %>" class="btn btn-primary"  >Bid Now</a>
+					                        <%-- <a href="Item.jsp?itemId=<%= rs.getString("itemId") %>" class="btn btn-primary <%= isClosed ? "disabled" : "" %>"  >Bid Now</a> --%>
 					                    </div>
 					                </div>
 					            </div>

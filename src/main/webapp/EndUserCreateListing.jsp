@@ -25,9 +25,7 @@
 				ApplicationDB database = new ApplicationDB();
 				Connection conn = database.getConnection();
 				
-				Timestamp ts1 = Timestamp.from(Instant.now());;
-				//Long val=ts1.getTime();
-				String message;
+				String message = "";
 				
 				String itemName = request.getParameter("item_name");
 				String itemDescription = request.getParameter("item_description");
@@ -44,9 +42,11 @@
 				String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
 				
 				Random random = new Random();
-				String random_four_digit_number = String.format("%04d", random.nextInt(10000));
+				String random_three_digit_number = String.format("%03d", random.nextInt(1000));
 				
-				String itemId = timeStamp + itemSubcategory + userID + random_four_digit_number;
+				long ts = System.currentTimeMillis() / 1000L;
+				
+				String itemId = String.valueOf(ts) + itemSubcategory + userID + random_three_digit_number;
 				
 				String query = "insert into Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				PreparedStatement preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
