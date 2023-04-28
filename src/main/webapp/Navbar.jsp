@@ -31,6 +31,10 @@
 	            <span class="navbar-text"> | </span>
             <% } %>
             <li class="nav-item">
+                <a class="nav-link" href="FAQ.jsp">FAQs</a>
+            </li>
+            <span class="navbar-text"> | </span>
+            <li class="nav-item">
                 <a class="nav-link" href="Logout.jsp">Logout</a>
             </li>
         </ul>
