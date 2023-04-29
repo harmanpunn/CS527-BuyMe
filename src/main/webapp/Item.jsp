@@ -41,10 +41,7 @@
 				        BuyMeUtils.closeExpiredBids(con);
 						
 						// Execute the query to retrieve the item details
-						// String sql = "SELECT * FROM Item WHERE itemId=?";
-						// String sql = "SELECT i.*, u.name AS seller_name, MAX(b.price) AS highest_bid, MAX(CASE WHEN b.userId = ? THEN b.price ELSE NULL END) AS user_bid FROM Item i LEFT JOIN Bid b ON i.itemId = b.itemId LEFT JOIN User u ON i.userId = u.userId WHERE i.itemId = ? GROUP BY i.itemId";
 						String sql = "SELECT i.*, u.name AS seller_name, MAX(b.price) AS highest_bid, MAX(CASE WHEN b.userId = ? THEN b.price ELSE NULL END) AS user_bid FROM Item i LEFT JOIN Bid b ON i.itemId = b.itemId AND b.status = 'active' LEFT JOIN User u ON i.userId = u.userId WHERE i.itemId = ? GROUP BY i.itemId";
-						//String sql = "SELECT i.*, u.name AS seller_name, MAX(b.price) AS highest_bid, MAX(CASE WHEN b.userId = ? THEN b.price ELSE NULL END) AS user_bid, ab.upper_limit AS auto_bid_upper_limit FROM Item i LEFT JOIN Bid b ON i.itemId = b.itemId AND b.status = 'active' LEFT JOIN User u ON i.userId = u.userId LEFT JOIN AutoBid ab ON ab.userId = ? AND ab.itemId = i.itemId WHERE i.itemId = ? GROUP BY i.itemId";
 
 						stmt = con.prepareStatement(sql);
 						stmt.setInt(1, user.getUserId());
@@ -182,15 +179,54 @@
 						</div>
 						
 						<%
+						// Execute the query to retrieve the winning user's information
+						String winningUserSql = "SELECT u.username AS user_name FROM Bid b JOIN User u ON b.userId = u.userId WHERE b.itemId = ? AND b.winning_bid = 1";
+						PreparedStatement winningUserStmt = con.prepareStatement(winningUserSql);
+						winningUserStmt.setString(1, itemId);
+						ResultSet winningUserRs = winningUserStmt.executeQuery();
+						String winningUserName = null;
+						if (winningUserRs.next()) {
+						  winningUserName = winningUserRs.getString("user_name");
+						}
+						winningUserStmt.close();
+
+
+							
+						%>
+						
+						<div class="container mt-5">
+						  <div class="card">
+						    <div class="card-header">
+						      <h2>Winner of the Auction</h2>
+						    </div>
+						    <div class="card-body">
+						      <% if (winningUserName != null) { %>
+						        <p class="card-text lead">
+								  The winner of this auction is
+								  <% if (winningUserName != null) { %>
+								    <span class="winner-username"><%= winningUserName %></span>
+								  <% } else { %>
+								    No winner for this auction yet.
+								  <% } %>
+								</p>
+						      <% } else { %>
+						        <p class="card-text lead">No winner for this auction yet.</p>
+						      <% } %>
+						    </div>
+						  </div>
+						</div>
+						
+						<%
 						  // Execute the query to retrieve the bid history
-/* 						  String bidHistorySql = "SELECT b.*, u.name AS user_name FROM Bid b JOIN User u ON b.userId = u.userId WHERE b.itemId = ? ORDER BY b.time DESC";
- */			    		  String bidHistorySql = "SELECT b.*, u.name AS user_name FROM Bid b JOIN User u ON b.userId = u.userId WHERE b.itemId = ? ORDER BY b.time DESC";
+			    		  String bidHistorySql = "SELECT b.*, u.username AS user_name FROM Bid b JOIN User u ON b.userId = u.userId WHERE b.itemId = ? ORDER BY b.time DESC";
 	
 						  PreparedStatement bidHistoryStmt = con.prepareStatement(bidHistorySql);
 						  bidHistoryStmt.setString(1, itemId);
 						  ResultSet bidHistoryRs = bidHistoryStmt.executeQuery();
 						  
+						  
 						%>
+						
 						
 						
 						<div class="container mt-5">
@@ -219,8 +255,9 @@
 									        double bidPrice = bidHistoryRs.getDouble("price");
 									        Timestamp bidTime = bidHistoryRs.getTimestamp("time");
 									        String bidStatus = bidHistoryRs.getString("status");
+									        int isWinningBid = bidHistoryRs.getInt("winning_bid");
 									    %>
-									    <tr >
+									    <tr <%= isWinningBid == 1 ? "class=\"winning-bid\"" : "" %>>
 									      <td><%= userName %></td>
 									      <td><%= bidPrice %></td>
 									      <td><%= bidTime %></td>

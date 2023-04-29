@@ -107,3 +107,16 @@ label {
   text-overflow: ellipsis;
 }
 
+.winning-bid {
+    font-weight: bold;
+    background-color: rgba(0, 255, 0, 0.1);
+}
+
+
+.winner-username {
+    font-weight: bold;
+    color: #333; /* You can use any color code you prefer */
+    text-transform: uppercase;
+    font-size: 1.2em;
+    border-bottom: 2px solid #333;
+}

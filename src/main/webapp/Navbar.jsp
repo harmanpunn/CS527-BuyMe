@@ -10,7 +10,7 @@
 	            <li class="nav-item active dropdown">
 	            
 	            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            	Item Categories
+            	Subcategories
           		</a>
           		<ul class="dropdown-menu"  aria-labelledby="navbarDropdownMenuLink" aria-labelledby="navbarDarkDropdownMenuLink">
             		<li><a class="dropdown-item" href="Listing.jsp?subcategory=Laptop">Laptops</a></li>
