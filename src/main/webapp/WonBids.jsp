@@ -26,11 +26,15 @@
                 try {
                 	ApplicationDB database = new ApplicationDB();
 					con = database.getConnection();
-					String bidsWonQuery = "SELECT b.itemId, i.name, b.price, b.time, i.closingtime FROM Bid b JOIN Item i ON b.itemId = i.itemId WHERE b.userId = ? AND b.status = 'closed' AND i.closingtime <= NOW() AND b.price = (SELECT MAX(price) FROM Bid WHERE itemId = b.itemId AND userId = ? AND status = 'closed') AND b.time = (SELECT MAX(time) FROM Bid WHERE itemId = b.itemId AND userId = ? AND status = 'closed');";
+					/* String bidsWonQuery = "SELECT b.itemId, i.name, b.price, b.time, i.closingtime FROM Bid b JOIN Item i ON b.itemId = i.itemId WHERE b.userId = ? AND b.status = 'closed' AND i.closingtime <= NOW() AND b.price = (SELECT MAX(price) FROM Bid WHERE itemId = b.itemId AND userId = ? AND status = 'closed') AND b.time = (SELECT MAX(time) FROM Bid WHERE itemId = b.itemId AND userId = ? AND status = 'closed');";
 					bidsWonStmt = con.prepareStatement(bidsWonQuery);
                     bidsWonStmt.setInt(1, userId);
                     bidsWonStmt.setInt(2, userId);
-                    bidsWonStmt.setInt(3, userId);
+                    bidsWonStmt.setInt(3, userId); */
+                    String bidsWonQuery = "SELECT b.itemId, i.name, b.price, b.time, i.closingtime FROM Bid b JOIN Item i ON b.itemId = i.itemId WHERE b.userId = ? AND b.status = 'closed' AND i.closingtime <= NOW() AND b.winning_bid = 1";
+                    bidsWonStmt = con.prepareStatement(bidsWonQuery);
+                    bidsWonStmt.setInt(1, userId);
+
 
                     bidsWonRs = bidsWonStmt.executeQuery();
                     while (bidsWonRs.next()) {
