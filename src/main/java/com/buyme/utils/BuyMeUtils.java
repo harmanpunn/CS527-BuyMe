@@ -65,7 +65,9 @@ public final class BuyMeUtils {
 	        stmt.executeUpdate();
 
 	        // Update the winning_bid column for the winning bids
-	        String updateWinningBidsQuery = "UPDATE Bid b1 JOIN (SELECT b.itemId, b.userId, b.time, RANK() OVER (PARTITION BY b.itemId ORDER BY b.price DESC, b.time ASC) as bid_rank FROM Bid b JOIN Item i ON b.itemId = i.itemId WHERE i.closingtime < NOW() AND b.status = 'closed') AS ranked_bids ON b1.itemId = ranked_bids.itemId AND b1.userId = ranked_bids.userId AND b1.time = ranked_bids.time SET b1.winning_bid = 1 WHERE ranked_bids.bid_rank = 1";
+	        //String updateWinningBidsQuery = "UPDATE Bid b1 JOIN (SELECT b.itemId, b.userId, b.time, RANK() OVER (PARTITION BY b.itemId ORDER BY b.price DESC, b.time ASC) as bid_rank FROM Bid b JOIN Item i ON b.itemId = i.itemId WHERE i.closingtime < NOW() AND b.status = 'closed') AS ranked_bids ON b1.itemId = ranked_bids.itemId AND b1.userId = ranked_bids.userId AND b1.time = ranked_bids.time SET b1.winning_bid = 1 WHERE ranked_bids.bid_rank = 1";
+	        String updateWinningBidsQuery = "UPDATE Bid b1 JOIN (SELECT b.itemId, b.userId, b.time, RANK() OVER (PARTITION BY b.itemId ORDER BY b.price DESC, b.time ASC) as bid_rank FROM Bid b JOIN Item i ON b.itemId = i.itemId WHERE i.closingtime < NOW() AND b.status = 'closed' AND b.price >= i.minprice) AS ranked_bids ON b1.itemId = ranked_bids.itemId AND b1.userId = ranked_bids.userId AND b1.time = ranked_bids.time SET b1.winning_bid = 1 WHERE ranked_bids.bid_rank = 1";
+
 	        stmt = con.prepareStatement(updateWinningBidsQuery);
 	        stmt.executeUpdate();
 	    } catch (SQLException e) {

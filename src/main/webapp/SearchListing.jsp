@@ -4,6 +4,7 @@
 <%@ page import="com.buyme.*" %>
 <%@ page import="com.buyme.db.ApplicationDB" %>
 <%@ page import="com.buyme.bean.UserBean" %>
+<%@ page import= "java.text.SimpleDateFormat, java.util.Date" %>
 
 <!DOCTYPE html>
 <html>
@@ -35,9 +36,33 @@
 				ApplicationDB database = new ApplicationDB();
 				con = database.getConnection();
 				
+				String startDateStr = request.getParameter("startDate");
+				String endDateStr = request.getParameter("endDate");
+				Timestamp startDateTimestamp = null;
+				Timestamp endDateTimestamp = null;
+				
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				if (startDateStr != null && !startDateStr.isEmpty()) {
+				    Date startDate = dateFormat.parse(startDateStr);
+				    startDateTimestamp = new Timestamp(startDate.getTime());
+				}
+				if (endDateStr != null && !endDateStr.isEmpty()) {
+				    Date endDate = dateFormat.parse(endDateStr);
+				    endDateTimestamp = new Timestamp(endDate.getTime());
+				}
+				
+				
 				// Prepare the query based on the selected filter option
-				String sql = "SELECT * FROM Item WHERE name LIKE ? OR description LIKE ? OR subcategory LIKE ?";
+				String sql = "SELECT * FROM Item WHERE (name LIKE ? OR description LIKE ? OR subcategory LIKE ?)";
 
+
+				if (startDateTimestamp != null) {
+				    sql += " AND closingtime >= ?";
+				}
+
+				if (endDateTimestamp != null) {
+				    sql += " AND closingtime <= ?";
+				}
 				if ("Name".equals(sortby)) {
 				    sql += " ORDER BY name";
 				} else if ("lowToHigh".equals(sortby)) {
@@ -51,12 +76,24 @@
 				} else {
 				    sql += " ORDER BY closingtime DESC";
 				}
-
+				
+				
+				int index = 4;	
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, "%" + query + "%");
 				pstmt.setString(2, "%" + query + "%");
 				pstmt.setString(3, "%" + query + "%");
+				if (startDateTimestamp != null) {
+				    pstmt.setTimestamp(index++, startDateTimestamp);
+				}
+
+				if (endDateTimestamp != null) {
+				    pstmt.setTimestamp(index++, endDateTimestamp);
+				}
+				
+				System.out.println("pstmt"+ pstmt);
 				rs = pstmt.executeQuery();
+				
 
 				// Display the search results
 				%>
@@ -67,19 +104,36 @@
 				<div class="container mt-5">
 					<h2 class="mb-3">Search Results for: <%= query %></h2>
 
-					<form class="form-inline d-flex mb-5 mx-auto" method="GET" action="SearchListing.jsp">
-						<label class="pt-2 for="sortby">Sort by:</label>
-												<select class="custom-select mx-3 form-control w-auto" name="sortby" id="sortby">
-							<option value="None" <%= "None".equals(sortby) ? "selected" : "" %>>---</option>
-							<option value="Name" <%= "Name".equals(sortby) ? "selected" : "" %>>Name</option>
-							<option value="lowToHigh" <%= "lowToHigh".equals(sortby) ? "selected" : "" %>>Price (Ascending)</option>
-							<option value="highToLow" <%= "highToLow".equals(sortby) ? "selected" : "" %>>Price (Descending)</option>
-							<option value="Open" <%= "Open".equals(sortby) ? "selected" : "" %>>Status: Open</option>
-							<option value="Closed" <%= "Closed".equals(sortby) ? "selected" : "" %>>Status: Closed</option>
-						</select>
-						<input type="hidden" name="query" value="<%= query %>">
-						<button type="submit" class="btn btn-primary mr-2">Apply</button>
+					<form class="mb-5 mx-auto" method="GET" action="SearchListing.jsp">
+					    <input type="hidden" name="query" value="<%= query %>">
+					    <div class="container">
+					        <div class="row align-items-center">
+					            <div class="col-auto form-group">
+					                <label for="sortby">Sort by:</label>
+					                <select class="custom-select form-control" name="sortby" id="sortby">
+					                    <option value="None" <%= "None".equals(sortby) ? "selected" : "" %>>---</option>
+					                    <option value="Name" <%= "Name".equals(sortby) ? "selected" : "" %>>Name</option>
+					                    <option value="lowToHigh" <%= "lowToHigh".equals(sortby) ? "selected" : "" %>>Price (Ascending)</option>
+					                    <option value="highToLow" <%= "highToLow".equals(sortby) ? "selected" : "" %>>Price (Descending)</option>
+					                    <option value="Open" <%= "Open".equals(sortby) ? "selected" : "" %>>Status: Open</option>
+					                    <option value="Closed" <%= "Closed".equals(sortby) ? "selected" : "" %>>Status: Closed</option>
+					                </select>
+					            </div>
+					            <div class="col-auto form-group">
+					                <label for="startDate">Start Date:</label>
+					                <input type="date" class="form-control" id="startDate" name="startDate" value="<%= request.getParameter("startDate") %>">
+					            </div>
+					            <div class="col-auto form-group">
+					                <label for="endDate">End Date:</label>
+					                <input type="date" class="form-control" id="endDate" name="endDate" value="<%= request.getParameter("endDate") %>">
+					            </div>
+					            <div class="col-auto form-group mt-rem-2">
+					                <button type="submit" class="btn btn-primary">Apply</button>
+					            </div>
+					        </div>
+					    </div>
 					</form>
+
 
 					<% if(rs.next()) { %>
 

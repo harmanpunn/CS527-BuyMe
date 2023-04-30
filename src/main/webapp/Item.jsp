@@ -32,6 +32,7 @@
 					Connection con = null;
 					PreparedStatement stmt = null;
 					ResultSet rs = null;
+					Item item = null;
 					
 					try {
 						ApplicationDB database = new ApplicationDB();
@@ -48,7 +49,7 @@
 						stmt.setString(2, itemId);
 						rs = stmt.executeQuery();
 						// Retrieve the item details from the result set
-						Item item = null;
+						
 						if(rs.next()) {
 							item = new Item(
 									rs.getInt("userId"),
@@ -104,27 +105,30 @@
 						      <div class="row">
 						        <div class="col-sm-6">
 						          <p class="card-text mb-1">
-						            <strong>Price:</strong><%= item.getInitialPrice() %>
+						            <strong>Listing Price: </strong>$<%= item.getInitialPrice() %>
+						          </p>
+						         <%--  <p class="card-text mb-1">
+						            <strong>Closing time: </strong><%= item.getClosingTime() %>
+						          </p> --%>
+						          <p class="card-text mb-1">
+						          	<strong>Closing time: </strong><span id="countdown"></span>
 						          </p>
 						          <p class="card-text mb-1">
-						            <strong>Closing time:</strong><%= item.getClosingTime() %>
+						            <strong>Current bid placed by you: </strong>$<%=  item.getUserBid() == 0.0 ? "None" : item.getUserBid() %>
 						          </p>
 						          <p class="card-text mb-1">
-						            <strong>Current bid placed by you:</strong><%=  item.getUserBid() == 0.0 ? "None" : item.getUserBid() %>
+						            <strong>Highest bid placed on the item: </strong>$<%= item.getHighestBid() == 0.0 ? "None" : item.getHighestBid()  %>
 						          </p>
 						          <p class="card-text mb-1">
-						            <strong>Highest bid placed on the item:</strong><%= item.getHighestBid() == 0.0 ? "None" : item.getHighestBid()  %>
-						          </p>
-						          <p class="card-text mb-1">
-									  <strong>Auto bid set:</strong><%= autoBidSet ? "True" : "False" %>
+									  <strong>Auto bid set: </strong><%= autoBidSet ? "True" : "False" %>
 								  </p>
 									<% if (autoBidSet) { %>
 								  <p class="card-text mb-1">
-								    <strong>Auto bid upper limit value:</strong><%= autoBidUpperLimit %>
+								    <strong>Auto bid upper limit value: </strong>$<%= autoBidUpperLimit %>
 								  </p>
 									<% } %>
 						          <p class="card-text mb-1">
-						            <strong>Seller:</strong><%= item.getSellerName() %>
+						            <strong>Seller: </strong><%= item.getSellerName() %>
 						          </p>
 						        </div>
 						        <div class="col-sm-6">
@@ -140,8 +144,11 @@
 						              </label>
 						              <div class="input-group">
 						                <span class="input-group-text">$</span>
-    									<input type="number" name="bidPrice" id="bidPrice" class="form-control" min="<%= item.getUserBid() == 0.0 ? item.getInitialPrice() : item.getUserBid()%>" step="<%= item.getBidIncrement() %>" value="<%= item.getUserBid() == 0.0 ? "" : item.getUserBid() %>" required>
+    									<%-- <input type="number" name="bidPrice" id="bidPrice" class="form-control" min="<%= item.getUserBid() == 0.0 ? item.getInitialPrice() : item.getUserBid()%>" step="<%= item.getBidIncrement() %>" value="<%= item.getUserBid() == 0.0 ? "" : item.getUserBid() %>" required> --%>
+    									<input type="number" name="bidPrice" id="bidPrice" class="form-control" min="<%= item.getHighestBid() == 0.0 ? item.getInitialPrice() : item.getHighestBid() + item.getBidIncrement() %>" step="<%= item.getBidIncrement() %>" value="<%= item.getHighestBid() == 0.0 ? item.getInitialPrice() : item.getHighestBid() + item.getBidIncrement() %>" required>
 						              </div>
+								  	  <p class="small text-muted mt-1">*Next minimum bid: $<%= item.getHighestBid() == 0.0 ? item.getInitialPrice() : (item.getHighestBid() + item.getBidIncrement()) %></p>
+						              
 						            </div>
 						            <button type="submit" name="placeBid" class="btn btn-primary">Place Bid</button>
 								</form>
@@ -284,7 +291,44 @@
 						stmt.close();
 						con.close();
 						
-					} }	}%>
+					} %>
+					
+					
+					<script>
+  // Countdown timer script goes here
+  	const countdownElement = document.getElementById('countdown');
+	const closingTime = new Date('<%= item.getClosingTime() %>').getTime();
+	console.log(closingTime)
+	function updateCountdown() {
+	  const now = new Date().getTime();
+	  
+	  const remainingTime = closingTime - now;
+	
+	  if (remainingTime < 0) {
+	    countdownElement.innerHTML = 'Auction closed';
+	    clearInterval(countdownInterval);
+	    return;
+	  }
+	
+	  const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+	  const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	  const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+	  const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+	
+	  countdownElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
+	}
+	
+	const countdownInterval = setInterval(updateCountdown, 1000);
+
+</script>
+					
+					
+				<% 	}	
+				}%>
+
+
+
+
 
 					</body>
 </html>
