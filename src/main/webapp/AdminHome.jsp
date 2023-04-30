@@ -39,6 +39,15 @@
        <jsp:include page="AdminCreateCustRep.jsp"/>
        
        
+         <form action="SalesReport.jsp" method="post" class="w-50">
+		   
+		    <div class="d-flex justify-content-end mb-3">
+		       
+		        <a type="submit" href="SalesReport.jsp" class="btn btn-primary">Generate Sales Report</a>
+		    </div>
+		    </form>
+       
+       
 	
         
     </div>
