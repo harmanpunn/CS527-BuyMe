@@ -16,7 +16,7 @@
                 <th>Subcategory</th>
                 <th>Initial Price</th>
                 <th>Closing Time</th>
-                <th>Current Bid Price</th>
+                <th>Highest Bid Price</th>
             </tr>
         </thead>
         <tbody>
@@ -28,7 +28,9 @@
                 try {
                 	ApplicationDB database = new ApplicationDB();
 					con = database.getConnection();
-                    String itemsPostedQuery = "SELECT i.itemId, i.name, i.description, i.subcategory, i.initialprice, i.closingtime, IFNULL(MAX(b.price), i.initialprice) as current_bid_price FROM Item i LEFT JOIN Bid b ON i.itemId = b.itemId WHERE i.userId = ? GROUP BY i.itemId";
+                    //String itemsPostedQuery = "SELECT i.itemId, i.name, i.description, i.subcategory, i.initialprice, i.closingtime, IFNULL(MAX(b.price), i.initialprice) as current_bid_price FROM Item i LEFT JOIN Bid b ON i.itemId = b.itemId WHERE i.userId = ? GROUP BY i.itemId";
+                    String itemsPostedQuery = "SELECT i.itemId, i.name, i.description, i.subcategory, i.initialprice, i.closingtime, MAX(b.price) as current_bid_price FROM Item i LEFT JOIN Bid b ON i.itemId = b.itemId WHERE i.userId = ? GROUP BY i.itemId";
+
                     itemsPostedStmt = con.prepareStatement(itemsPostedQuery);
                     itemsPostedStmt.setInt(1, userId);
                     itemsPostedRs = itemsPostedStmt.executeQuery();
