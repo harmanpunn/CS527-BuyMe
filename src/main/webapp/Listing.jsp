@@ -4,6 +4,7 @@
 <%@ page import="com.buyme.*" %>
 <%@ page import="com.buyme.db.ApplicationDB" %>
 <%@ page import="com.buyme.bean.UserBean" %>
+<%@ page import= "java.text.SimpleDateFormat, java.util.Date" %>
 
 <!DOCTYPE html>
 <html>
@@ -34,29 +35,32 @@
                 try {
                     ApplicationDB database = new ApplicationDB();
                     con = database.getConnection();
+                    String startDateStr = request.getParameter("startDate");
+    				String endDateStr = request.getParameter("endDate");
+    				Timestamp startDateTimestamp = null;
+    				Timestamp endDateTimestamp = null;
+    				
+    				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    				if (startDateStr != null && !startDateStr.isEmpty()) {
+    				    Date startDate = dateFormat.parse(startDateStr);
+    				    startDateTimestamp = new Timestamp(startDate.getTime());
+    				}
+    				if (endDateStr != null && !endDateStr.isEmpty()) {
+    				    Date endDate = dateFormat.parse(endDateStr);
+    				    endDateTimestamp = new Timestamp(endDate.getTime());
+    				}
+    				
 
                     // Prepare the query based on the selected filter option
                     String sql = "SELECT * FROM Item WHERE subcategory = ?";
-                   /*  switch (sortby) {
-                        case "Name":
-                            sql += " ORDER BY name";
-                            break;
-                        case "lowToHigh":
-                            sql += " ORDER BY initialprice ASC";
-                            break;
-                        case "highToLow":
-                            sql += " ORDER BY initialprice DESC";
-                            break;
-                        case "Open":
-                            sql += " AND closingtime > CURRENT_TIMESTAMP";
-                            break;
-                        case "Closed":
-                            sql += " AND closingtime <= CURRENT_TIMESTAMP";
-                            break;
-                        default:
-                            sql += " ORDER BY closingtime DESC";
-                            break;
-                    } */
+                    
+                	if (startDateTimestamp != null) {
+    				    sql += " AND closingtime >= ?";
+    				}
+
+    				if (endDateTimestamp != null) {
+    				    sql += " AND closingtime <= ?";
+    				}
                    
                    	if ("Name".equals(sortby)) {
 					    sql += " ORDER BY name";
@@ -74,6 +78,15 @@
 
                     pstmt = con.prepareStatement(sql);
                     pstmt.setString(1, subcategory);
+                    int index = 2;
+                    if (startDateTimestamp != null) {
+    				    pstmt.setTimestamp(index++, startDateTimestamp);
+    				}
+
+    				if (endDateTimestamp != null) {
+    				    pstmt.setTimestamp(index++, endDateTimestamp);
+    				}
+                    
                     rs = pstmt.executeQuery();
 
                     // Display the search results
@@ -85,7 +98,7 @@
                     <div class="container mt-5">
                         <h2 class="mb-3"><%= subcategory %> Listings</h2>
 
-                      <form class="form-inline d-flex mb-5 mx-auto" method="GET" action="Listing.jsp">
+                      <%-- <form class="form-inline d-flex mb-5 mx-auto" method="GET" action="Listing.jsp">
 						  <label class="pt-2 for="sortby">Sort by:</label>
 						  <select class="custom-select mx-3 form-control w-auto" name="sortby" id="sortby">
 						    <option value="None" <%= "None".equals(sortby) ? "selected" : "" %>>---</option>
@@ -97,7 +110,39 @@
 						  </select>
 						  <input type="hidden" name="subcategory" value="<%= subcategory %>">
 						  <button type="submit" class="btn btn-primary mr-2">Apply</button>
+						</form> --%>
+						
+						
+						<form class="mb-5 mx-auto" method="GET" action="Listing.jsp">
+						    <input type="hidden" name="subcategory" value="<%= subcategory %>">
+						    <div class="container">
+						        <div class="row align-items-center">
+						            <div class="col-auto form-group">
+						                <label for="sortby">Sort by:</label>
+						                <select class="custom-select form-control" name="sortby" id="sortby">
+						                    <option value="None" <%= "None".equals(sortby) ? "selected" : "" %>>---</option>
+						                    <option value="Name" <%= "Name".equals(sortby) ? "selected" : "" %>>Name</option>
+						                    <option value="lowToHigh" <%= "lowToHigh".equals(sortby) ? "selected" : "" %>>Price (Ascending)</option>
+						                    <option value="highToLow" <%= "highToLow".equals(sortby) ? "selected" : "" %>>Price (Descending)</option>
+						                    <option value="Open" <%= "Open".equals(sortby) ? "selected" : "" %>>Status: Open</option>
+						                    <option value="Closed" <%= "Closed".equals(sortby) ? "selected" : "" %>>Status: Closed</option>
+						                </select>
+						            </div>
+						            <div class="col-auto form-group">
+						                <label for="startDate">Start Date:</label>
+						                <input type="date" class="form-control" id="startDate" name="startDate" value="<%= request.getParameter("startDate") %>">
+						            </div>
+						            <div class="col-auto form-group">
+						                <label for="endDate">End Date:</label>
+						                <input type="date" class="form-control" id="endDate" name="endDate" value="<%= request.getParameter("endDate") %>">
+						            </div>
+						            <div class="col-auto form-group mt-rem-2">
+						                <button type="submit" class="btn btn-primary">Apply</button>
+						            </div>
+						        </div>
+						    </div>
 						</form>
+						
 
 
 					    
@@ -118,8 +163,8 @@
 					                        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 					                        boolean isClosed = closingTime.before(currentTime);
 					                        %>
-					                        
-					                        <a href="Item.jsp?itemId=<%= rs.getString("itemId") %>" class="btn btn-primary <%= isClosed ? "disabled" : "" %>"  >Bid Now</a>
+   					                        <a href="Item.jsp?itemId=<%= rs.getString("itemId") %>" class="btn btn-primary"  >Bid Now</a>
+					                        <%-- <a href="Item.jsp?itemId=<%= rs.getString("itemId") %>" class="btn btn-primary <%= isClosed ? "disabled" : "" %>"  >Bid Now</a> --%>
 					                    </div>
 					                </div>
 					            </div>

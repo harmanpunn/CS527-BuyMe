@@ -35,7 +35,7 @@
                     while (itemsPostedRs.next()) {
             %>
             <tr>
-                <td><%= itemsPostedRs.getString("itemId") %></td>
+              	<td><a href="Item.jsp?itemId=<%= itemsPostedRs.getString("itemId") %>"><%= itemsPostedRs.getString("itemId") %></a></td>
                 <td><%= itemsPostedRs.getString("name") %></td>
                 <td><%= itemsPostedRs.getString("description") %></td>
                 <td><%= itemsPostedRs.getString("subcategory") %></td>

@@ -133,6 +133,13 @@ CREATE TABLE Bid (
   FOREIGN KEY (userId) REFERENCES EndUser(userId),
   FOREIGN KEY (itemId) REFERENCES Item(itemId)
 );
+
+ALTER TABLE Bid
+MODIFY bid_id INT AUTO_INCREMENT PRIMARY KEY;
+
+ALTER TABLE Bid
+MODIFY bid_id INT AUTO_INCREMENT;
+
 SELECT * FROM ENDUSER
 Select * from ITEM;
 SELECT * from BID;
@@ -186,8 +193,6 @@ INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, 
 
 INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (7, 'SPH004', 'Apple iPhone 14', '128GB, 6.1-inch screen, 5G, A16 chip', 'smartphone', 1200, '2023-04-15 12:00:00', 50, 1200);
 
-SELECT * FROM ENDuSER;
-
 INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (2, 'LPT004', 'Lenovo ThinkPad X1 Carbon', '14-inch, Intel Core i7, 512GB SSD, 16GB RAM', 'laptop', 1400, '2023-04-10 15:00:00', 50, 1400);
 
 INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (5, 'TBL003', 'Microsoft Surface Pro 8', '13-inch, Intel Core i5, 256GB SSD, 8GB RAM', 'tablet', 1000, '2023-04-09 20:00:00', 30, 1000);
@@ -215,5 +220,93 @@ CREATE TABLE UserQuestion (
 
 SELECT * FROM UserQuestion;
 
-SELECT * FROM ITEM
+SELECT * FROM BID;
 
+SELECT * from AutoBid;
+
+
+
+
+CREATE TABLE AutoBid (
+  auto_bid_id INT AUTO_INCREMENT PRIMARY KEY,
+  userId INT NOT NULL,
+  itemId VARCHAR(255) NOT NULL,
+  auto_bid_increment DOUBLE NOT NULL,
+  upper_limit DOUBLE NOT NULL,
+  FOREIGN KEY (userId) REFERENCES User(userId),
+  FOREIGN KEY (itemId) REFERENCES Item(itemId)
+);
+
+
+SELECT * FROM BID;
+
+SELECT * from AutoBid;
+
+
+Select * from EndUser;
+
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (4, 'TBL005', 'Samsung Galaxy Tab S7 FE', '12.4-inch, 128GB storage, Wi-Fi + 5G', 'tablet', 800, '2023-05-01 14:00:00', 30, 800);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (3, 'SPH007', 'Xiaomi Mi 12', '128GB, 6.8-inch screen, 5G, Snapdragon 898', 'smartphone', 1200, '2023-05-02 18:00:00', 50, 1200);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (2, 'LPT007', 'HP Pavilion x360', '14-inch, Intel Core i5, 256GB SSD, 8GB RAM', 'laptop', 900, '2023-05-03 10:00:00', 50, 900);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (5, 'TBL006', 'Amazon Fire HD 10', '10.1-inch, 64GB storage, Wi-Fi', 'tablet', 150, '2023-05-04 14:00:00', 10, 150);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (1, 'SPH008', 'Samsung Galaxy A73', '128GB, 6.7-inch screen, 5G, Snapdragon 778G', 'smartphone', 800, '2023-05-05 18:00:00', 30, 800);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (9, 'LPT008', 'Acer Chromebook Spin 311', '11.6-inch, Intel Celeron, 32GB eMMC, 4GB RAM', 'laptop', 300, '2023-05-06 10:00:00', 20, 300);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (7, 'TBL007', 'Lenovo Tab P12 Pro', '12.6-inch, 128GB storage, Wi-Fi', 'tablet', 700, '2023-05-07 14:00:00', 30, 700);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (11, 'SPH009', 'Apple iPhone 15', '256GB, 6.1-inch screen, 5G, A17 chip', 'smartphone', 1500, '2023-05-08 18:00:00', 50, 1500);
+
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (2, 'LPT009', 'Dell Inspiron 15 5000', '15.6-inch, Intel Core i5, 512GB SSD, 8GB RAM', 'laptop', 1000, '2023-05-09 10:00:00', 50, 1000);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (4, 'TBL008', 'Microsoft Surface Go 3', '10.5-inch, Intel Pentium Gold, 128GB SSD, 8GB RAM', 'tablet', 500, '2023-05-10 14:00:00', 20, 500);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (5, 'SPH010', 'OnePlus Nord 3', '128GB, 6.5-inch screen, 5G, Snapdragon 870', 'smartphone', 700, '2023-05-11 18:00:00', 30, 700);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (9, 'LPT010', 'ASUS VivoBook S14', '14-inch, Intel Core i7, 512GB SSD, 16GB RAM', 'laptop', 1200, '2023-05-12 10:00:00', 50, 1200);
+
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (1, 'TBL011', 'Samsung Galaxy Tab A7 Lite', '8.7-inch, 32GB storage, Wi-Fi', 'tablet', 200, DATE_ADD(NOW(), INTERVAL 1 DAY), 10, 200);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (2, 'SPH011', 'Xiaomi Redmi Note 11 Pro', '128GB, 6.67-inch screen, 5G, Snapdragon 870', 'smartphone', 500, DATE_ADD(NOW(), INTERVAL 2 DAY), 20, 500);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (3, 'LPT011', 'Lenovo IdeaPad 5 Pro', '16-inch, AMD Ryzen 7, 512GB SSD, 16GB RAM', 'laptop', 1100, DATE_ADD(NOW(), INTERVAL 1 DAY), 50, 1100);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (4, 'TBL012', 'Amazon Fire HD 8', '8-inch, 32GB storage, Wi-Fi', 'tablet', 100, DATE_ADD(NOW(), INTERVAL 2 DAY), 10, 100);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (5, 'SPH012', 'Google Pixel 8', '128GB, 6.5-inch screen, 5G, Tensor chip', 'smartphone', 900, DATE_ADD(NOW(), INTERVAL 1 DAY), 50, 900);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (7, 'LPT012', 'Acer Nitro 5', '15.6-inch, Intel Core i5, 512GB SSD, 8GB RAM', 'laptop', 800, DATE_ADD(NOW(), INTERVAL 2 DAY), 50, 800);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (9, 'TBL013', 'Microsoft Surface Duo 2', '8.3-inch dual-screen, 256GB storage, Wi-Fi + 5G', 'tablet', 1200, DATE_ADD(NOW(), INTERVAL 1 DAY), 30, 1200);
+
+INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) VALUES (11, 'SPH013', 'Samsung Galaxy Z Fold 4', '256GB, 7.1-inch foldable screen, 5G, Snapdragon 898', 'smartphone', 2000, DATE_ADD(NOW(), INTERVAL 2 DAY), 100, 2000);
+
+
+select * from item;
+
+CREATE TABLE faq (
+  faq_id INT AUTO_INCREMENT PRIMARY KEY,
+  question VARCHAR(255) NOT NULL,
+  answer TEXT NOT NULL,
+  display_order INT NOT NULL
+);
+
+select * from faq;
+
+
+INSERT INTO faq (question, answer, display_order) VALUES ('How do I create an account on BuyMe?', 'To create an account, click on the "Create an Account" button on the homepage and fill in the required information to complete your registration.', 1);
+INSERT INTO faq (question, answer, display_order) VALUES ('How do I post an item for auction?', 'After logging in, click on the "Account" on the navbar. You will see "Create a listing" form. Fill in the required item details, including title, description, initial price, bid increment, and closing time. Once submitted, your item will be listed for auction.', 3);
+INSERT INTO faq (question, answer, display_order) VALUES ('How do I place a bid on an item?', 'To place a bid, go to the item page and enter your bid amount in the provided field. You can also set a secret maximum bid to enable automatic bidding.', 4);
+INSERT INTO faq (question, answer, display_order) VALUES ('What is automatic bidding?', 'Automatic bidding allows you to set a secret maximum bid. When another user places a higher bid, the system will automatically increase your bid up to your maximum limit.', 5);
+INSERT INTO faq (question, answer, display_order) VALUES ('How do I delete my account?', 'To delete your account, please contact our customer support team, who will assist you with the account deletion process.', 9);
+INSERT INTO faq (question, answer, display_order) VALUES ('How do I search for items on BuyMe?', 'Use the search bar at the top of the homepage to enter your desired items keywords or category. You can also apply filters to refine your search results.', 10);
+INSERT INTO faq (question, answer, display_order) VALUES ('What happens if I win an auction?', 'If you win an auction, you are obligated to purchase the item at the winning bid price. You will receive instructions on how to complete the payment and receive your item.', 13);
+
+sel

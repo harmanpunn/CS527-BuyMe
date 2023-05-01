@@ -27,13 +27,20 @@
 		<jsp:param name="landingPage" value="UserHome" />
 	</jsp:include>
 	
+	
+	
+	<jsp:include page="CreateListing.jsp">
+		<jsp:param name="userId" value="${user.userId}" />
+	</jsp:include>
+	
 	<jsp:include page="ManageInterests.jsp">
 		<jsp:param name="userId" value="${user.userId}" />
 	</jsp:include>
 	
-	<jsp:include page="FAQ.jsp">
+	<jsp:include page="AskQuestion.jsp">
 		<jsp:param name="userId" value="${user.userId}" />
 	</jsp:include>
+	
 	
 	<jsp:include page="Footer.jsp" />
  

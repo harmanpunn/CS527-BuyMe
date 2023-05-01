@@ -4,6 +4,7 @@
 <%@ page import="com.buyme.*" %>
 <%@ page import="com.buyme.bean.UserBean" %>
 <%@ page import="com.buyme.db.ApplicationDB" %>
+<%@ page import="com.buyme.utils.BuyMeUtils" %>
 
 <link href="assets/css/carousel.css" rel="stylesheet"/>
 
@@ -19,11 +20,14 @@
                 try {
                 	ApplicationDB database = new ApplicationDB();
     				con = database.getConnection();
+    				// Close expired bids
+			        BuyMeUtils.closeExpiredBids(con);
                     String itemsOfInterestQuery = "SELECT i.itemId, i.name, i.description, i.initialprice, i.closingtime FROM Item i WHERE i.subcategory IN (SELECT interest FROM UserInterests WHERE userId = ?) AND i.closingtime > NOW()";
                     itemsOfInterestStmt = con.prepareStatement(itemsOfInterestQuery);
                     itemsOfInterestStmt.setInt(1, userId);
                     itemsOfInterestRs = itemsOfInterestStmt.executeQuery();
                     while (itemsOfInterestRs.next()) {
+                    	
             %>
             <div class="carousel-card">
                 <div class="card">

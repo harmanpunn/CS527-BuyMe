@@ -7,15 +7,27 @@
             </li>
             <% if(!Boolean.parseBoolean(request.getParameter("isEmployee"))) { %>
        		 <span class="navbar-text"> | </span>
-	            <li class="nav-item active">
-	                <a class="nav-link" href="Listing.jsp?subcategory=Laptop">Laptops <span class="sr-only"></span></a>
+	            <li class="nav-item active dropdown">
+	            
+	            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            	Subcategories
+          		</a>
+          		<ul class="dropdown-menu"  aria-labelledby="navbarDropdownMenuLink" aria-labelledby="navbarDarkDropdownMenuLink">
+            		<li><a class="dropdown-item" href="Listing.jsp?subcategory=Laptop">Laptops</a></li>
+            		<li><a class="dropdown-item" href="Listing.jsp?subcategory=Smartphone">Smartphones</a></li>
+            		<li><a class="dropdown-item" href="Listing.jsp?subcategory=Tablet">Tablets</a></li>
+          		</ul>
+				</li>
+	            
+	            <!--  <li class="nav-item active">
+	                <a class="nav-link" href="Listing.jsp?subcategory=Laptop">Laptops<span class="sr-only"></span></a>
 	            </li>
 	            <li class="nav-item">
 	                <a class="nav-link" href="Listing.jsp?subcategory=Smartphone">Smartphones</a>
 	            </li>
 	            <li class="nav-item">
 	                <a class="nav-link" href="Listing.jsp?subcategory=Tablet">Tablets</a>
-	            </li>
+	            </li>-->
             <% } %>
         </ul>
     </div>
@@ -30,6 +42,10 @@
 	            </li>
 	            <span class="navbar-text"> | </span>
             <% } %>
+            <li class="nav-item">
+                <a class="nav-link" href="FAQ.jsp">FAQs</a>
+            </li>
+            <span class="navbar-text"> | </span>
             <li class="nav-item">
                 <a class="nav-link" href="Logout.jsp">Logout</a>
             </li>
