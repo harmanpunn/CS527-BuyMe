@@ -40,7 +40,7 @@
                         String rowClass = status.equals("Limit Exceeded") ? "table-danger" : "";
             %>
             <tr class="<%= rowClass %>">
-                <td><%= itemId %></td>
+                <td><a href="Item.jsp?itemId=<%= itemId %>"><%= itemId %></a></td>
                 <td><%= itemName %></td>
                 <td><%= upperLimit %></td>
                 <td><%= highestBid %></td>

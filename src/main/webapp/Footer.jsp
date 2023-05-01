@@ -26,14 +26,14 @@
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
                         <li><a href="UserHome.jsp">Home</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="CreateListing.jsp">Sell On BuyMe</a></li>
+                        <li><a href="FAQ.jsp">Frequently Asked Questions</a></li>
+                        <li><a href="Account.jsp">Account Settings</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
                     <h5>Contact Information</h5>
-                    <p>1234 Example Street<br>City, State 12345<br>Email: support@buyme.com<br>Phone: +1 (123) 456-7890</p>
+                    <p>60 Paterson Street<br>New Brunswick, NJ 08901<br>Email: support@buyme.com<br>Phone: +1 (123) 456-7890</p>
                 </div>
             </div>
         </div>

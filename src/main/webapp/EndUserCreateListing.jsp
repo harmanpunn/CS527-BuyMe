@@ -61,7 +61,7 @@
 				String query = "Insert into Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 				preparedStatement.setString(1, userID);
-				preparedStatement.setString(2, itemId);
+				preparedStatement.setString(2, itemId.toUpperCase());
 				preparedStatement.setString(3, itemName);
 				preparedStatement.setString(4, itemDescription);
 				preparedStatement.setString(5, itemSubcategory);

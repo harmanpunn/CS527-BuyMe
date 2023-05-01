@@ -125,7 +125,10 @@
                             </p>
                             <% } %>
                             <p class="card-text mb-1">
-                                <strong>Seller: </strong><%= item.getSellerName() %>
+                                <strong>Seller: </strong>
+                                <a href="SellerInfo.jsp?userId=<%= item.getUserId() %>">
+                               	 <%= item.getSellerName() %> 
+                                </a>
                             </p>
                         </div>
                         <div class="col-sm-6">
@@ -263,7 +266,7 @@
             </div>
         </div>
         
-        	
+        
         <jsp:include page="SimilarItems.jsp" />
         <jsp:include page="Footer.jsp" />
         <%bidHistoryStmt.close();

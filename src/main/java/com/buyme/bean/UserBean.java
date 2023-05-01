@@ -10,6 +10,19 @@ public class UserBean {
 	private String location;
 	private double rating;
 	
+	
+	public UserBean() {
+		
+	}
+	public UserBean(int userId, String name, String username, String password, String email, String location) {
+		super();
+		this.userId = userId;
+		this.name = name;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.location = location;
+	}
 	public double getRating() {
 		return rating;
 	}
