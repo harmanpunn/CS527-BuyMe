@@ -18,6 +18,8 @@ CREATE TABLE Admin (
     ON DELETE CASCADE	
 );
 
+
+
 CREATE TABLE CustomerRep (
 	userId INT NOT NULL,
     PRIMARY KEY (userId),
@@ -73,8 +75,6 @@ VALUES (2, 0.0);
 INSERT INTO EndUser (userId, rating)
 VALUES (3, 0.0);
 
-Select * from User
-
 CREATE TABLE Item (
   userId INT NOT NULL,
   itemId VARCHAR(255) NOT NULL,
@@ -107,21 +107,7 @@ VALUES (5, 'SPH002', 'Google Pixel 6', '128GB, 6.4-inch screen, 50MP camera', 's
 INSERT INTO Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice)
 VALUES (5, 'SPH003', 'Google Pixel 7', '128GB, 6.3-inch screen, 50MP camera, Smooth Display (up to 90 Hz), 10.8 MP Front Camera', 'smartphone', 1100.00, '2023-04-04 08:00:00', 50.00, 1100.00);
 
-select * from item;
 
--- CREATE TABLE Bid (
---   bid_id INT AUTO_INCREMENT PRIMARY KEY,
---   price REAL NOT NULL,
---   time TIMESTAMP NOT NULL
--- );
-
--- CREATE TABLE Places (
---   userId INT NOT NULL,
---   bid_id INT NOT NULL,
---   PRIMARY KEY (userId, bid_id),
---   FOREIGN KEY (userId) REFERENCES EndUser(userId),
---   FOREIGN KEY (bid_id) REFERENCES Bid(bid_id)
--- );
 
 CREATE TABLE Bid (
   bid_id INT PRIMARY KEY,
@@ -130,10 +116,17 @@ CREATE TABLE Bid (
   price REAL NOT NULL,
   time TIMESTAMP NOT NULL,
   status ENUM('active', 'closed') NOT NULL,
+  winning_bid BIT NOT NULL DEFAULT 0,
   FOREIGN KEY (userId) REFERENCES EndUser(userId),
   FOREIGN KEY (itemId) REFERENCES Item(itemId)
 );
 
+
+ALTER TABLE Bid
+ADD winning_bid BIT NOT NULL DEFAULT 0;
+
+SELECT b.*, u.name AS user_name FROM Bid b JOIN User u ON b.userId = u.userId WHERE b.itemId = "SPH001" ORDER BY b.time DESC;
+SELECT b.*, u.name AS user_name, (b.price = MAX(b.price) OVER () AND b.time = MAX(b.time) OVER (PARTITION BY b.price)) AS is_winning_bid FROM Bid b JOIN User u ON b.userId = u.userId WHERE b.itemId = "SPH001" ORDER BY b.time DESC;
 ALTER TABLE Bid
 MODIFY bid_id INT AUTO_INCREMENT PRIMARY KEY;
 
@@ -242,7 +235,7 @@ SELECT * FROM BID;
 
 SELECT * from AutoBid;
 
-
+SELECT a.userId, a.auto_bid_increment, a.upper_limit FROM AutoBid a JOIN Bid b ON a.userId = b.userId WHERE b.itemId = 'TBL007' AND b.status = 'active' AND a.upper_limit > 920.0 AND a.userId NOT IN (1)
 Select * from EndUser;
 
 
@@ -309,4 +302,56 @@ INSERT INTO faq (question, answer, display_order) VALUES ('How do I delete my ac
 INSERT INTO faq (question, answer, display_order) VALUES ('How do I search for items on BuyMe?', 'Use the search bar at the top of the homepage to enter your desired items keywords or category. You can also apply filters to refine your search results.', 10);
 INSERT INTO faq (question, answer, display_order) VALUES ('What happens if I win an auction?', 'If you win an auction, you are obligated to purchase the item at the winning bid price. You will receive instructions on how to complete the payment and receive your item.', 13);
 
-sel
+
+Select * from Autobid;
+SELECT a.upper_limit FROM AutoBid a JOIN Bid b ON b.userId = a.userId WHERE a.itemId = 'LPT008' AND b.userId = 1 AND b.status = 'active';
+
+
+
+SELECT a.userId, a.auto_bid_increment, a.upper_limit FROM AutoBid a JOIN Bid b ON a.userId = b.userId WHERE a.itemId = 'LPT008' AND b.status = 'active' AND a.upper_limit > 420.0;
+
+
+
+UPDATE Bid b1
+JOIN (
+  SELECT b.itemId, b.userId, MAX(b.time) as max_time
+  FROM Bid b
+  JOIN Item i ON b.itemId = i.itemId
+  WHERE i.closingtime < NOW() AND b.status = 'closed'
+  AND b.price = (
+    SELECT MAX(price)
+    FROM Bid
+    WHERE itemId = b.itemId AND status = 'closed'
+  )
+  GROUP BY b.itemId, b.userId
+) AS winning_bids
+ON b1.itemId = winning_bids.itemId AND b1.userId = winning_bids.userId AND b1.time = winning_bids.max_time
+SET b1.winning_bid = 1;
+
+
+UPDATE Bid b1 JOIN (SELECT b.itemId, b.userId, b.time, RANK() OVER (PARTITION BY b.itemId ORDER BY b.price DESC, b.time ASC) as bid_rank FROM Bid b JOIN Item i ON b.itemId = i.itemId WHERE i.closingtime < NOW() AND b.status = 'closed') AS ranked_bids ON b1.itemId = ranked_bids.itemId AND b1.userId = ranked_bids.userId AND b1.time = ranked_bids.time SET b1.winning_bid = 1 WHERE ranked_bids.bid_rank = 1;
+
+SELECT * FROM Item WHERE name LIKE '%gb%' OR description LIKE '%gb%' OR subcategory LIKE '%gb%' AND closingtime >= '2023-04-29 00:00:00' AND closingtime <= '2023-04-29 00:00:00' ORDER BY closingtime DESC
+
+SELECT * FROM Item WHERE name LIKE '%gb%' OR description LIKE '%gb%' OR subcategory LIKE '%gb%' AND closingtime >= '2023-04-29 00:00:00' AND closingtime <= '2023-05-03 00:00:00' ORDER BY closingtime DESC
+;
+
+
+
+
+CREATE TABLE Sale (
+	sale_id INT AUTO_INCREMENT PRIMARY KEY,
+    seller_id INT NOT NULL,
+    buyer_id INT NOT NULL,
+    item_id VARCHAR(255) NOT NULL,
+    list_price REAL NOT NULL,
+    sale_price REAL NOT NULL,
+    FOREIGN KEY (seller_id) REFERENCES User(userId) ON DELETE CASCADE,
+    FOREIGN KEY (buyer_id) REFERENCES User(userId) ON DELETE CASCADE,
+	FOREIGN KEY (item_id) REFERENCES Item(itemId) ON DELETE CASCADE
+);
+select * from sale
+
+SELECT s.item_id, i.subcategory, i.name, s.buyer_id, s.sale_price, u.name FROM Sale s, Item i, User u WHERE s.item_id = i.itemId AND s.buyer_id = u.userId
+
+SELECT * FROM UserInterests
