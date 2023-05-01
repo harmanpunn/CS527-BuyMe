@@ -98,20 +98,6 @@
                     <div class="container mt-5">
                         <h2 class="mb-3"><%= subcategory %> Listings</h2>
 
-                      <%-- <form class="form-inline d-flex mb-5 mx-auto" method="GET" action="Listing.jsp">
-						  <label class="pt-2 for="sortby">Sort by:</label>
-						  <select class="custom-select mx-3 form-control w-auto" name="sortby" id="sortby">
-						    <option value="None" <%= "None".equals(sortby) ? "selected" : "" %>>---</option>
-							<option value="Name" <%= "Name".equals(sortby) ? "selected" : "" %>>Name</option>
-							<option value="lowToHigh" <%= "lowToHigh".equals(sortby) ? "selected" : "" %>>Price (Ascending)</option>
-							<option value="highToLow" <%= "highToLow".equals(sortby) ? "selected" : "" %>>Price (Descending)</option>
-							<option value="Open" <%= "Open".equals(sortby) ? "selected" : "" %>>Status: Open</option>
-							<option value="Closed" <%= "Closed".equals(sortby) ? "selected" : "" %>>Status: Closed</option>
-						  </select>
-						  <input type="hidden" name="subcategory" value="<%= subcategory %>">
-						  <button type="submit" class="btn btn-primary mr-2">Apply</button>
-						</form> --%>
-						
 						
 						<form class="mb-5 mx-auto" method="GET" action="Listing.jsp">
 						    <input type="hidden" name="subcategory" value="<%= subcategory %>">
@@ -149,28 +135,30 @@
 					    
 					    <% if (rs.next()) { %>
 
-					    <div class="row">
-					        <% do { %>
-					            <div class="col-md-4 mb-3">
-					                <div class="card">
-					                    <div class="card-body">
-					                        <h5 class="card-title"><%= rs.getString("name") %></h5>
-					                        <p class="card-text"><%= rs.getString("description") %></p>
-					                        <p class="card-text">Price: <%= rs.getDouble("initialprice") %></p>
-					                        
-					                        <% 
-					                        Timestamp closingTime = rs.getTimestamp("closingtime");
-					                        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-					                        boolean isClosed = closingTime.before(currentTime);
-					                        %>
-   					                        <a href="Item.jsp?itemId=<%= rs.getString("itemId") %>" class="btn btn-primary"  >Bid Now</a>
-					                        <%-- <a href="Item.jsp?itemId=<%= rs.getString("itemId") %>" class="btn btn-primary <%= isClosed ? "disabled" : "" %>"  >Bid Now</a> --%>
-					                    </div>
-					                </div>
-					            </div>
-					
-					        <% } while (rs.next()); %>
-					    </div>
+					   <div class="row">
+						    <% do { %>
+						        <%
+						        Timestamp closingTime = rs.getTimestamp("closingtime");
+						        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+						        boolean isClosed = closingTime.before(currentTime);
+						        %>
+						        <div class="col-md-4 mb-3">
+						            <a href="Item.jsp?itemId=<%= rs.getString("itemId") %>" class="item-card-link">
+						                <div class="card">
+						                    <div class="card-body">
+						                        <h5 class="card-title"><%= rs.getString("name") %></h5>
+						                        <p class="card-text"><%= rs.getString("description") %></p>
+						                        <p class="card-text">Price: <%= rs.getDouble("initialprice") %></p>
+						                        <% if (isClosed) { %>
+						                        <div class="closed-indicator">Closed</div>
+						                        <% } %>
+						                    </div>
+						                </div>
+						            </a>
+						        </div>
+						    <% } while (rs.next()); %>
+						</div>
+
 					
 					<% } else { %>
 					

@@ -36,3 +36,21 @@
   white-space: nowrap;
   max-width: 100%;
 }
+
+.closed-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.item-card-link {
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    display: block;
+}

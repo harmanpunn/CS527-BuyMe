@@ -28,7 +28,8 @@ public class UpdateEndUserServlet extends HttpServlet {
         String passwordString = request.getParameter("password");
         String password = BuyMeUtils.encryptPassword(passwordString);
         String location = request.getParameter("location");
-        float rating = Float.parseFloat(request.getParameter("rating"));
+//        float rating = Float.parseFloat(request.getParameter("rating"));
+        float rating = 0f;
 
         Connection con = null;
         PreparedStatement pstmt = null;

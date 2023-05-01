@@ -27,25 +27,25 @@
                     itemsOfInterestStmt.setInt(1, userId);
                     itemsOfInterestRs = itemsOfInterestStmt.executeQuery();
                     while (itemsOfInterestRs.next()) {
+                    	Timestamp closingTime = itemsOfInterestRs.getTimestamp("closingtime");
+                        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+                        boolean isClosed = closingTime.before(currentTime);
                     	
             %>
             <div class="carousel-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= itemsOfInterestRs.getString("name") %></h5>
-                        <p class="card-desc"><%= itemsOfInterestRs.getString("description") %></p>
-                        <p class="card-text">Price: <%= itemsOfInterestRs.getDouble("initialprice") %></p>
-                        
-                        <% 
-                        Timestamp closingTime = itemsOfInterestRs.getTimestamp("closingtime");
-                        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-                        boolean isClosed = closingTime.before(currentTime);
-                        %>
-                        
-                        <a href="Item.jsp?itemId=<%= itemsOfInterestRs.getString("itemId") %>" class="btn btn-primary <%= isClosed ? "disabled" : "" %>">Bid Now</a>
-                    </div>
-                </div>
-            </div>
+			    <a href="Item.jsp?itemId=<%= itemsOfInterestRs.getString("itemId") %>" class="item-card-link">
+			        <div class="card">
+			            <div class="card-body">
+			                <h5 class="card-title"><%= itemsOfInterestRs.getString("name") %></h5>
+			                <p class="card-desc"><%= itemsOfInterestRs.getString("description") %></p>
+			                <p class="card-text">Price: <%= itemsOfInterestRs.getDouble("initialprice") %></p>
+			                <% if (isClosed) { %>
+			                <div class="closed-indicator">Closed</div>
+			                <% } %>
+			            </div>
+			        </div>
+			    </a>
+			</div>
             <% 
                     }
                 } catch (SQLException e) {

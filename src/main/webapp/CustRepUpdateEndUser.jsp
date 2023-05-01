@@ -11,6 +11,10 @@
             Connection con = null;
             PreparedStatement stmt = null;
             ResultSet rs = null;
+            boolean isEmployee = false;
+            if(Boolean.parseBoolean(request.getParameter("isEmployee"))) {
+            	isEmployee = true;
+            }
             try {
                 ApplicationDB database = new ApplicationDB();
                 con = database.getConnection();
@@ -21,7 +25,7 @@
                 if (rs.next()) {
         %>
         <h3 class="my-5">Update User Details</h3>
-        <form action="UpdateEndUserServlet" method="post" class="w-50">
+        <form action="UpdateEndUserServlet" method="post" class="<%= isEmployee ? "w-50" : "w-auto" %>">
 		    <input type="hidden" name="userId" value="<%= userId %>">
 		    <div class="row">
 		        <div class="col-md-6">
@@ -58,16 +62,17 @@
 		                <input type="text" class="form-control" id="location" name="location" value="<%= rs.getString("location") %>">
 		            </div>
 		        </div>
-		        <div class="col-md-6">
+		        <%-- <div class="col-md-6">
 		            <div class="mb-3">
 		                <label for="rating" class="form-label">Rating</label>
 		                <input type="number" step="0.01" class="form-control" id="rating" name="rating" value="<%=  rs.getDouble("rating") %>" required>
 		            </div>
-		        </div>
+		        </div> --%>
 		    </div>
 		    <div class="d-flex justify-content-center mb-3">
 		        <button type="submit" class="btn btn-primary me-5">Update</button>
-		        <a type="submit" href="CustomerRepHome.jsp" class="btn btn-primary">Cancel</a>
+		        <a type="submit" href="<%= isEmployee ? "CustomerRepHome.jsp" : "UserHome.jsp" %>" class="btn btn-primary">Cancel</a>
+		        
 		    </div>
 		    <%
 		    if (request.getParameter("status") != null && Boolean.parseBoolean(request.getParameter("status"))) {

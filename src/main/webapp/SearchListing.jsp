@@ -138,29 +138,28 @@
 					<% if(rs.next()) { %>
 
 					<div class="row">
-						<% do { %>
-
-						<div class="col-md-4 mb-3">
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title"><%= rs.getString("name") %></h5>
-									<p class="card-text"><%= rs.getString("description") %></p>
-									<p class="card-text">Price: <%= rs.getDouble("initialprice") %></p>
-									
-									<% 
-				                        Timestamp closingTime = rs.getTimestamp("closingtime");
-				                        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-				                        boolean isClosed = closingTime.before(currentTime);
-				                    %>
-					                 <%-- <a href="Item.jsp?itemId=<%= rs.getString("itemId") %>" class="btn btn-primary <%= isClosed ? "disabled" : "" %>"  >Bid Now</a> --%>
-  					                 <a href="Item.jsp?itemId=<%= rs.getString("itemId") %>" class="btn btn-primary"  >Bid Now</a>
-					                 
-								</div>
-							</div>
+						    <% do { %>
+						        <%
+						        Timestamp closingTime = rs.getTimestamp("closingtime");
+						        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+						        boolean isClosed = closingTime.before(currentTime);
+						        %>
+						        <div class="col-md-4 mb-3">
+						            <a href="Item.jsp?itemId=<%= rs.getString("itemId") %>" class="item-card-link">
+						                <div class="card">
+						                    <div class="card-body">
+						                        <h5 class="card-title"><%= rs.getString("name") %></h5>
+						                        <p class="card-text"><%= rs.getString("description") %></p>
+						                        <p class="card-text">Price: <%= rs.getDouble("initialprice") %></p>
+						                        <% if (isClosed) { %>
+						                        <div class="closed-indicator">Closed</div>
+						                        <% } %>
+						                    </div>
+						                </div>
+						            </a>
+						        </div>
+						    <% } while (rs.next()); %>
 						</div>
-
-						<% } while(rs.next()); %>
-					</div>
 
 					<% } else { %>
 

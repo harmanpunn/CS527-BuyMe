@@ -39,6 +39,10 @@ public class Item {
 		public void setUserBid(double userBid) {
 			this.userBid = userBid;
 		}
+		
+		public Item() {
+			
+		}
 
 		public Item(int userId, String itemId, String name, String description, String subcategory, double initialPrice, Timestamp closingTime, double bidIncrement, double minPrice) {
 	        this.userId = userId;

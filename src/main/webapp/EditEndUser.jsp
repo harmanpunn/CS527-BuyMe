@@ -18,7 +18,11 @@
 			<jsp:param name="landingPage" value="CustomerRepHome" />
 		</jsp:include>
 
-		<jsp:include page="CustRepUpdateEndUser.jsp"/>
+		<jsp:include page="CustRepUpdateEndUser.jsp">
+			<jsp:param name="isEmployee" value="true" />
+		</jsp:include>
+		
+		
 		<jsp:include page="CustRepUpdateBid.jsp"/>
 		<jsp:include page="CustRepUpdateAuction.jsp"/>
 		<jsp:include page="CustRepFAQ.jsp"/>

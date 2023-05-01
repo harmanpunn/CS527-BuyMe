@@ -6,54 +6,59 @@
 <%@ page import="com.buyme.db.ApplicationDB" %>
 
 <div class="container mt-5">
-    <h3>AutoBid Status</h3>
+    <h3>Autobid Status</h3>
     <table class="table">
         <thead>
             <tr>
                 <th>Item ID</th>
                 <th>Item Name</th>
-                <th>Current Bid Price</th>
                 <th>Upper Limit</th>
+                <th>Current Highest Bid</th>
                 <th>Status</th>
             </tr>
         </thead>
         <tbody>
             <%
-            	int userId = Integer.parseInt(request.getParameter("userId"));
-                PreparedStatement autoBidStmt = null;
-                ResultSet autoBidRs = null;
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                PreparedStatement autobidStatusStmt = null;
+                ResultSet autobidStatusRs = null;
                 Connection con = null;
                 try {
-                	ApplicationDB database = new ApplicationDB();
-					con = database.getConnection();
-                    String autoBidQuery = "SELECT ab.itemId, i.name, ab.current_bid_price, ab.upper_limit, IF(ab.upper_limit < (SELECT MAX(price) FROM Bid WHERE itemId = ab.itemId AND status = 'active'), 'limit_reached', 'active') as status FROM AutoBid ab JOIN Item i ON ab.itemId = i.itemId WHERE ab.userId = ?";
-                    autoBidStmt = con.prepareStatement(autoBidQuery);
-                    autoBidStmt.setInt(1, userId);
-                    autoBidRs = autoBidStmt.executeQuery();
-                    while (autoBidRs.next()) {
+                    ApplicationDB database = new ApplicationDB();
+                    con = database.getConnection();
+                    String autobidStatusQuery = "SELECT ab.itemId, i.name, ab.upper_limit, (SELECT MAX(b.price) FROM Bid b WHERE b.itemId = ab.itemId) as highest_bid FROM AutoBid ab JOIN Item i ON ab.itemId = i.itemId WHERE ab.userId = ?";
+                    autobidStatusStmt = con.prepareStatement(autobidStatusQuery);
+                    autobidStatusStmt.setInt(1, userId);
+                    autobidStatusRs = autobidStatusStmt.executeQuery();
+
+                    while (autobidStatusRs.next()) {
+                        String itemId = autobidStatusRs.getString("itemId");
+                        String itemName = autobidStatusRs.getString("name");
+                        double upperLimit = autobidStatusRs.getDouble("upper_limit");
+                        double highestBid = autobidStatusRs.getDouble("highest_bid");
+                        String status = highestBid <= upperLimit ? "Active" : "Limit Exceeded";
+                        String rowClass = status.equals("Limit Exceeded") ? "table-danger" : "";
             %>
-            <tr>
-                <td><%= autoBidRs.getString("itemId") %></td>
-                <td><%= autoBidRs.getString("name") %></td>
-                <td><%= autoBidRs.getDouble("current_bid_price") %></td>
-                <td><%= autoBidRs.getDouble("upper_limit") %></td>
-                <td><%= autoBidRs.getString("status") %></td>
+            <tr class="<%= rowClass %>">
+                <td><%= itemId %></td>
+                <td><%= itemName %></td>
+                <td><%= upperLimit %></td>
+                <td><%= highestBid %></td>
+                <td><%= status %></td>
             </tr>
             <%
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
                 } finally {
-                    if (autoBidRs != null) {
-                        autoBidRs.close();
+                    if (autobidStatusRs != null) {
+                        autobidStatusRs.close();
                     }
-                    if (autoBidStmt != null) {
-                        autoBidStmt.close();
+                    if (autobidStatusStmt != null) {
+                        autobidStatusStmt.close();
                     }
                 }
             %>
         </tbody>
     </table>
 </div>
-    
-               
