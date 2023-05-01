@@ -10,7 +10,7 @@
 	            <li class="nav-item active dropdown">
 	            
 	            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            	Subcategories
+            	Browse Categories
           		</a>
           		<ul class="dropdown-menu"  aria-labelledby="navbarDropdownMenuLink" aria-labelledby="navbarDarkDropdownMenuLink">
             		<li><a class="dropdown-item" href="Listing.jsp?subcategory=Laptop">Laptops</a></li>
@@ -18,6 +18,13 @@
             		<li><a class="dropdown-item" href="Listing.jsp?subcategory=Tablet">Tablets</a></li>
           		</ul>
 				</li>
+				 
+            <% if(!Boolean.parseBoolean(request.getParameter("isEmployee"))) { %>
+            	<span class="navbar-text"> | </span>
+	            <li class="nav-item">
+	                <a class="nav-link" href="CreateListing.jsp">Sell on BuyMe</a>
+	            </li>
+	          <% } %>
 	            
 	            <!--  <li class="nav-item active">
 	                <a class="nav-link" href="Listing.jsp?subcategory=Laptop">Laptops<span class="sr-only"></span></a>
@@ -41,11 +48,13 @@
 	                <a class="nav-link" href="Account.jsp">Account</a>
 	            </li>
 	            <span class="navbar-text"> | </span>
-            <% } %>
+            
             <li class="nav-item">
                 <a class="nav-link" href="FAQ.jsp">FAQs</a>
             </li>
+            
             <span class="navbar-text"> | </span>
+            <% } %>
             <li class="nav-item">
                 <a class="nav-link" href="Logout.jsp">Logout</a>
             </li>

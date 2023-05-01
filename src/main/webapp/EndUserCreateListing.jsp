@@ -19,6 +19,7 @@
 		<%
 			int userId = Integer.parseInt(request.getParameter("userId"));
 			String userID = Integer.toString(userId);
+			PreparedStatement preparedStatement = null;
 			
 			
 			try {
@@ -46,10 +47,19 @@
 				
 				long ts = System.currentTimeMillis() / 1000L;
 				
-				String itemId = String.valueOf(ts) + itemSubcategory + userID + random_three_digit_number;
+				String prefix = "";		//substring containing first 4 characters
+
+				if (itemName.length() > 4)
+				{
+					prefix = itemName.substring(0, 4);
+				} else {
+					prefix = itemName;
+				}
 				
-				String query = "insert into Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-				PreparedStatement preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+				String itemId = prefix + "-" + itemSubcategory + String.valueOf(ts) + userID + random_three_digit_number;
+				
+				String query = "Insert into Item (userId, itemId, name, description, subcategory, initialprice, closingtime, bidincrement, minprice) values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				preparedStatement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 				preparedStatement.setString(1, userID);
 				preparedStatement.setString(2, itemId);
 				preparedStatement.setString(3, itemName);
@@ -59,18 +69,36 @@
 				preparedStatement.setTimestamp(7, timestamp);
 				preparedStatement.setDouble(8, itemBidIncrement);
 				preparedStatement.setDouble(9, itemMinimumPrice);
-				preparedStatement.executeUpdate();
+				int rowsAffected  = preparedStatement.executeUpdate();
 				
-				//ResultSet rs = preparedStatement.getGeneratedKeys();
-				message = "Registration is successful";
+				
 				preparedStatement.close();
 				
 				
 				conn.close();
-				response.sendRedirect("Account.jsp");
 				
-			}catch(Exception e) {
+				if (rowsAffected > 0) {
+					message = "Item has been posted for auction.";
+                	response.sendRedirect("CreateListing.jsp?" + "&status=true");
+                } else {
+                	message = "Error processing your request. Please try again!";
+                	response.sendRedirect("CreateListing.jsp?" + "&status=false"  );
+                }
+			
+				
+			} catch(Exception e) {
 				System.out.println("Here {}"+ e);
+				String message = "Error processing your request. Please try again!";
+            	response.sendRedirect("CreateListing.jsp?" + "&status=false"  );
+				
+			} finally {
+				if (preparedStatement  != null) {
+	                try {
+	                	preparedStatement.close();
+	                } catch (SQLException e) {
+	                    e.printStackTrace();
+	                }
+	            }
 			}
 		%>
 	</body>
