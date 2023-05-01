@@ -26,7 +26,9 @@
                 try {
                     ApplicationDB database = new ApplicationDB();
                     con = database.getConnection();
-                    String autobidStatusQuery = "SELECT ab.itemId, i.name, ab.upper_limit, (SELECT MAX(b.price) FROM Bid b WHERE b.itemId = ab.itemId) as highest_bid FROM AutoBid ab JOIN Item i ON ab.itemId = i.itemId WHERE ab.userId = ?";
+                   // String autobidStatusQuery = "SELECT ab.itemId, i.name, ab.upper_limit, (SELECT MAX(b.price) FROM Bid b WHERE b.itemId = ab.itemId) as highest_bid FROM AutoBid ab JOIN Item i ON ab.itemId = i.itemId WHERE ab.userId = ?";
+                    String autobidStatusQuery = "SELECT ab.itemId, i.name, ab.upper_limit, (SELECT MAX(b.price) FROM Bid b WHERE b.itemId = ab.itemId) as highest_bid FROM AutoBid ab JOIN Item i ON ab.itemId = i.itemId WHERE ab.userId = ? AND i.closingtime > NOW()";
+
                     autobidStatusStmt = con.prepareStatement(autobidStatusQuery);
                     autobidStatusStmt.setInt(1, userId);
                     autobidStatusRs = autobidStatusStmt.executeQuery();
