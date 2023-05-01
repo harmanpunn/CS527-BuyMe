@@ -6,6 +6,7 @@
 <%@ page import="com.buyme.bean.Item" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.text.DecimalFormat" %>
 
 <%
     // Get the seller's userId from the request parameter
@@ -17,8 +18,10 @@
     PreparedStatement sellerStmt = null;
     ResultSet sellerRs = null;
     Connection con = null;
+    DecimalFormat df_obj = new DecimalFormat("#.#");
     try {
         ApplicationDB database = new ApplicationDB();
+        
         con = database.getConnection();
         String sellerQuery = "SELECT u.*, e.rating FROM User u INNER JOIN EndUser e ON u.userId = e.userId WHERE u.userId = ?";
         sellerStmt = con.prepareStatement(sellerQuery);
@@ -113,7 +116,7 @@
     <h3 class="mb-4">Seller Information</h3>
     <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
         <h5 class="font-weight-bold mb-0"><%= seller.getName() %></h5>
-        <p class="mb-0">Rating: <%= sellerRating %></p>
+        <p class="mb-0">Rating: <%= df_obj.format(sellerRating) %></p>
     </div>
 </div>
 		

@@ -130,6 +130,17 @@
                                	 <%= item.getSellerName() %> 
                                 </a>
                             </p>
+                            <p class="card-text mb-1">
+                            	<strong>Rate the seller: </strong>
+                            	<span id="rating" class="rating">
+						            <span class="rating-star" data-value="5">&#9733;</span>
+						            <span class="rating-star" data-value="4">&#9733;</span>
+						            <span class="rating-star" data-value="3">&#9733;</span>
+						            <span class="rating-star" data-value="2">&#9733;</span>
+						            <span class="rating-star" data-value="1">&#9733;</span>
+						        </span>
+                            </p>
+					        
                         </div>
                         <div class="col-sm-6">
                             <% if (item.getUserId() != user.getUserId() && !biddingClosed) { %>
@@ -277,6 +288,42 @@
             	con.close();
             	
             } %>
+            
+            <script>
+            document.querySelectorAll('.rating-star').forEach((star) => {
+                star.addEventListener('click', (e) => {
+                    const rating = e.target.dataset.value;
+                    const userId = <%= item.getUserId() %>;
+
+                    const params = new URLSearchParams();
+                    params.append('userId', userId);
+                    params.append('rating', rating);
+
+                    fetch('UpdateSellerRatingServlet', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: params
+                    })
+                    .then((response) => {
+                        if (response.ok) {
+                            alert('Thank you for your rating!');
+                        } else {
+                            alert('An error occurred while submitting your rating. Please try again later.');
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        alert('An error occurred while submitting your rating. Please try again later.');
+                    });
+                });
+            });
+
+
+			</script>
+            
+            
         <script>
             // Countdown timer script goes here
             	const countdownElement = document.getElementById('countdown');

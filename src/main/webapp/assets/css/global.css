@@ -160,4 +160,24 @@ label {
     .alert.success {
         background-color: #4CAF50;
     }
+    
+    
+.rating {
+    font-size: 1.5rem;
+    display: inline-flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+
+.rating-star {
+    cursor: pointer;
+    color: #ccc;
+    margin: 0 2px;
+    transition: color 200ms;
+}
+
+.rating-star:hover,
+.rating-star:hover ~ .rating-star {
+    color: gold;
+}
 
