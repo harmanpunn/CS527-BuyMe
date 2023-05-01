@@ -57,25 +57,46 @@ public final class BuyMeUtils {
 //	}
 	
 	public static void closeExpiredBids(Connection con) {
-	    PreparedStatement stmt = null;
+//	    PreparedStatement stmt = null;
+	    PreparedStatement stmt1 = null;
+	    PreparedStatement stmt2 = null;
+	    PreparedStatement stmt3 = null;
 	    try {
 	        // Update the bids' status for items with closing times that have passed
 	        String updateBidsStatusQuery = "UPDATE Bid b JOIN Item i ON b.itemId = i.itemId SET b.status = 'closed' WHERE i.closingtime < NOW() AND b.status = 'active'";
-	        stmt = con.prepareStatement(updateBidsStatusQuery);
-	        stmt.executeUpdate();
+	        stmt1 = con.prepareStatement(updateBidsStatusQuery);
+	        stmt1.executeUpdate();
 
 	        // Update the winning_bid column for the winning bids
 	        //String updateWinningBidsQuery = "UPDATE Bid b1 JOIN (SELECT b.itemId, b.userId, b.time, RANK() OVER (PARTITION BY b.itemId ORDER BY b.price DESC, b.time ASC) as bid_rank FROM Bid b JOIN Item i ON b.itemId = i.itemId WHERE i.closingtime < NOW() AND b.status = 'closed') AS ranked_bids ON b1.itemId = ranked_bids.itemId AND b1.userId = ranked_bids.userId AND b1.time = ranked_bids.time SET b1.winning_bid = 1 WHERE ranked_bids.bid_rank = 1";
 	        String updateWinningBidsQuery = "UPDATE Bid b1 JOIN (SELECT b.itemId, b.userId, b.time, RANK() OVER (PARTITION BY b.itemId ORDER BY b.price DESC, b.time ASC) as bid_rank FROM Bid b JOIN Item i ON b.itemId = i.itemId WHERE i.closingtime < NOW() AND b.status = 'closed' AND b.price >= i.minprice) AS ranked_bids ON b1.itemId = ranked_bids.itemId AND b1.userId = ranked_bids.userId AND b1.time = ranked_bids.time SET b1.winning_bid = 1 WHERE ranked_bids.bid_rank = 1";
-
-	        stmt = con.prepareStatement(updateWinningBidsQuery);
-	        stmt.executeUpdate();
+	        stmt2 = con.prepareStatement(updateWinningBidsQuery);
+	        stmt2.executeUpdate();
+	        
+	        // Insert a new record in the Sale table for the sold items
+	        String insertSaleRecordQuery = "INSERT INTO Sale (seller_id, buyer_id, item_id, list_price, sale_price) SELECT i.userId, b.userId, i.itemId, i.initialprice, b.price FROM Item i JOIN Bid b ON i.itemId = b.itemId WHERE b.winning_bid = 1 AND NOT EXISTS (SELECT 1 FROM Sale s WHERE s.item_id = i.itemId)";
+	        stmt3 = con.prepareStatement(insertSaleRecordQuery);
+	        stmt3.executeUpdate();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    } finally {
-	        if (stmt != null) {
+	    	if (stmt1 != null) {
 	            try {
-	                stmt.close();
+	                stmt1.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	        if (stmt2 != null) {
+	            try {
+	                stmt2.close();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	        if (stmt3 != null) {
+	            try {
+	                stmt3.close();
 	            } catch (SQLException e) {
 	                e.printStackTrace();
 	            }

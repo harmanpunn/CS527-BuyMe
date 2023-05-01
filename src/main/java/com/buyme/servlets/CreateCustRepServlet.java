@@ -14,11 +14,11 @@ import com.buyme.db.ApplicationDB;
 import com.buyme.utils.BuyMeUtils;
 import com.mysql.jdbc.Statement;
 
-@WebServlet("/CreateCustRep")
-public class CreateCustRep extends HttpServlet {
+@WebServlet("/CreateCustRepServlet")
+public class CreateCustRepServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public CreateCustRep() {
+    public CreateCustRepServlet() {
         super();
     }
 

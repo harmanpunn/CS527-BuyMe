@@ -98,6 +98,9 @@ label {
     width: 8%!important;
 }
 
+.mt-rem-2 {
+	margin-top: 2rem!important;
+}
 
 .card-text {
   display: -webkit-box;
@@ -109,7 +112,7 @@ label {
 
 .winning-bid {
     font-weight: bold;
-    background-color: rgba(0, 255, 0, 0.1);
+    background-color: #FFF2CC;
 }
 
 
@@ -120,3 +123,5 @@ label {
     font-size: 1.2em;
     border-bottom: 2px solid #333;
 }
+
+

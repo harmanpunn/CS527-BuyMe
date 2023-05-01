@@ -29,9 +29,9 @@
 	
 	
 	
-	<jsp:include page="CreateListing.jsp">
+	<%-- <jsp:include page="CreateListing.jsp">
 		<jsp:param name="userId" value="${user.userId}" />
-	</jsp:include>
+	</jsp:include> --%>
 	
 	<jsp:include page="ManageInterests.jsp">
 		<jsp:param name="userId" value="${user.userId}" />
