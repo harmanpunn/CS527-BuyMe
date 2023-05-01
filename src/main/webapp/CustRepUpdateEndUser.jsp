@@ -72,6 +72,8 @@
 		    <div class="d-flex justify-content-center mb-3">
 		        <button type="submit" class="btn btn-primary me-5">Update</button>
 		        <a type="submit" href="<%= isEmployee ? "CustomerRepHome.jsp" : "UserHome.jsp" %>" class="btn btn-primary">Cancel</a>
+		        <button type="button" class="btn btn-danger ms-5" id="deleteUser">Delete User</button>
+		        
 		        
 		    </div>
 		    <%
@@ -110,3 +112,14 @@
                         }
                     }%>
 	</div>
+	
+	
+	<script>
+	    document.getElementById("deleteUser").addEventListener("click", function() {
+	        if (confirm("Are you sure you want to delete this user?")) {
+	            window.location.href = "DeleteEndUserServlet?userId=" + <%=userId%> + "&isEmployee=" + <%=isEmployee%>;
+	        }
+	    });
+	</script>
+
+	
