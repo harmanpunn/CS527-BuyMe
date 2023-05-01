@@ -115,7 +115,7 @@ public final class BuyMeUtils {
 	        ResultSet rs = null;
 
 	        try {
-	            String findAutoBidsQuery = "SELECT a.userId, a.auto_bid_increment, a.upper_limit FROM AutoBid a JOIN Bid b ON a.userId = b.userId WHERE a.itemId = ? AND b.status = 'active' AND a.upper_limit > ?";
+	            String findAutoBidsQuery = "SELECT a.userId, a.auto_bid_increment, a.upper_limit FROM AutoBid a JOIN Bid b ON a.userId = b.userId AND a.itemId = b.itemId WHERE a.itemId = ? AND b.status = 'active' AND a.upper_limit > ?";
 	            if (!triggeredUsers.isEmpty()) {
 	                findAutoBidsQuery += " AND a.userId NOT IN " + usersIn(triggeredUsers);
 	            }
