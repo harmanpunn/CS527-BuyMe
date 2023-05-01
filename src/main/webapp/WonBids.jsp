@@ -4,6 +4,7 @@
 <%@ page import="com.buyme.*" %>
 <%@ page import="com.buyme.bean.UserBean" %>
 <%@ page import="com.buyme.db.ApplicationDB" %>
+<%@ page import="com.buyme.utils.BuyMeUtils" %>
 
 <div class="container mt-5">
     <h3>Victorious: Your Winning Bids</h3>
@@ -26,11 +27,9 @@
                 try {
                 	ApplicationDB database = new ApplicationDB();
 					con = database.getConnection();
-					/* String bidsWonQuery = "SELECT b.itemId, i.name, b.price, b.time, i.closingtime FROM Bid b JOIN Item i ON b.itemId = i.itemId WHERE b.userId = ? AND b.status = 'closed' AND i.closingtime <= NOW() AND b.price = (SELECT MAX(price) FROM Bid WHERE itemId = b.itemId AND userId = ? AND status = 'closed') AND b.time = (SELECT MAX(time) FROM Bid WHERE itemId = b.itemId AND userId = ? AND status = 'closed');";
-					bidsWonStmt = con.prepareStatement(bidsWonQuery);
-                    bidsWonStmt.setInt(1, userId);
-                    bidsWonStmt.setInt(2, userId);
-                    bidsWonStmt.setInt(3, userId); */
+					
+					// Close expired bids
+			        BuyMeUtils.closeExpiredBids(con);
                     String bidsWonQuery = "SELECT b.itemId, i.name, b.price, b.time, i.closingtime FROM Bid b JOIN Item i ON b.itemId = i.itemId WHERE b.userId = ? AND b.status = 'closed' AND i.closingtime <= NOW() AND b.winning_bid = 1";
                     bidsWonStmt = con.prepareStatement(bidsWonQuery);
                     bidsWonStmt.setInt(1, userId);
