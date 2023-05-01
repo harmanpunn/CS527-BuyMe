@@ -12,7 +12,7 @@
             <tr>
                 <th>Item ID</th>
                 <th>Name</th>
-                <th>Description</th>
+                <!-- <th>Description</th> -->
                 <th>Subcategory</th>
                 <th>Initial Price</th>
                 <th>Closing Time</th>
@@ -37,7 +37,7 @@
             <tr>
               	<td><a href="Item.jsp?itemId=<%= itemsPostedRs.getString("itemId") %>"><%= itemsPostedRs.getString("itemId") %></a></td>
                 <td><%= itemsPostedRs.getString("name") %></td>
-                <td><%= itemsPostedRs.getString("description") %></td>
+                <%-- <td><%= itemsPostedRs.getString("description") %></td> --%>
                 <td><%= itemsPostedRs.getString("subcategory") %></td>
                 <td><%= itemsPostedRs.getDouble("initialprice") %></td>
                 <td><%= itemsPostedRs.getTimestamp("closingtime") %></td>
