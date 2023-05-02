@@ -18,7 +18,8 @@ Use the following login credentials to access the application:
 - johndoe = password123
 - janedoe = password456
 - bobsmith = password789
-- sjohnson = myp@ssw0rd!
+- sjohnson = P@ssword123
+- mlee23 = myp@ssw0rd!
 
 ### Admin
 
