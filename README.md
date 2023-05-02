@@ -42,3 +42,11 @@ To get started with this project, follow these steps:
 ## About the Environment
 
 This project was developed using Apache Tomcat v9.0 and Java 18.0.
+
+## Box Link
+
+[Project Files](https://rutgers.box.com/s/g4fgq6cgo7zo3gaxqzbr0i4s4iueexzu)
+
+## Project Github
+
+[Github](https://github.com/harmanpunn/CS527-BuyMe)
