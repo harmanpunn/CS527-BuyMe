@@ -75,9 +75,21 @@
 			        stmt.executeUpdate();
 			    }
 
+			    String highestActiveBidQuery = "SELECT MAX(price) as highest_active_bid FROM Bid WHERE itemId = ? AND status = 'active'";
+				stmt = con.prepareStatement(highestActiveBidQuery);
+				stmt.setString(1, itemId);
+				rs = stmt.executeQuery();
+				double highestActiveBid = 0;
+				if (rs.next()) {
+					highestActiveBid = rs.getDouble("highest_active_bid");
+				}
+				rs.close();
+				stmt.close();
+
 
                 // Commit the changes and close the connection
                 con.commit();
+                BuyMeUtils.triggerAutoBids(con, itemId, highestActiveBid);
                 response.sendRedirect(request.getContextPath() + "/Item.jsp?itemId=" + itemId + "&success=true");
             } catch (SQLException e) {
                 if (con != null) {

@@ -180,6 +180,7 @@ CREATE TABLE UserQuestion (
   ON DELETE CASCADE
 );
 
+
 CREATE TABLE AutoBid (
   auto_bid_id INT AUTO_INCREMENT PRIMARY KEY,
   userId INT NOT NULL,

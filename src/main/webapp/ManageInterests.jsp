@@ -74,6 +74,13 @@
                     <option value="Laptop" <% if (userInterests.contains("Laptop")) { %>selected<% } %>>Laptop</option>
                     <option value="Smartphone" <% if (userInterests.contains("Smartphone")) { %>selected<% } %>>Smartphone</option>
                     <option value="Tablet" <% if (userInterests.contains("Tablet")) { %>selected<% } %>>Tablet</option>
+                    <option value="M1 Macbook Air" <% if (userInterests.contains("M1 Macbook Air")) { %>selected<% } %>>M1 Macbook Air</option>
+                    <option value="M1 Macbook Pro" <% if (userInterests.contains("M1 Macbook Pro")) { %>selected<% } %>>M1 Macbook Pro</option>
+                    <option value="Acer" <% if (userInterests.contains("Acer")) { %>selected<% } %>>Acer</option>
+                    <option value="Lenovo" <% if (userInterests.contains("Lenovo")) { %>selected<% } %>>Lenovo</option>
+                    <option value="iPad" <% if (userInterests.contains("iPad")) { %>selected<% } %>>iPad</option>
+                    <option value="Samsung" <% if (userInterests.contains("Samsung")) { %>selected<% } %>>Samsung</option>
+                    <option value="4GB Graphics Nvidia" <% if (userInterests.contains("4GB Graphics Nvidia")) { %>selected<% } %>>4GB Graphics Nvidia</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Save Interests</button>

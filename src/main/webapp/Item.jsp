@@ -169,7 +169,7 @@
                                     </label>
                                     <div class="input-group">
                                         <span class="input-group-text">$</span>
-                                        <input type="number" name="upperLimit" id="upperLimit" class="form-control" min="<%= item.getInitialPrice() %>" value="<%= autoBidSet ? autoBidUpperLimit : "" %>">
+                                        <input type="number" name="upperLimit" id="upperLimit" class="form-control" min="<%= item.getInitialPrice() %>" value="<%= autoBidSet ? autoBidUpperLimit : "" %>" step="<%= item.getBidIncrement() %>">
                                     </div>
                                 </div>
                                 <button type="submit" name="updateUpperLimit" class="btn btn-primary">Update Upper Limit</button>
