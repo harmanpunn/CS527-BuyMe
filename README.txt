@@ -2,6 +2,13 @@
 
 Welcome to CS527-BuyMe, a dynamic web project built using JSP and JDBC technologies.
 
+## Team Members
+
+- Harmanpreet Singn : FH272
+- Sanchay Kanade : SK2656
+- Sahithya Namani : SN807
+- Vishwas Gowdihalli Mahalingappa : VG421
+
 ## Login Credentials
 
 Use the following login credentials to access the application:
